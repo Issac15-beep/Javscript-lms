@@ -1,0 +1,3537 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>JS Ascent: Intermediate JavaScript LMS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Figtree:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f1f2f8;
+        --surface: #ffffff;
+        --ink: #171a33;
+        --muted: #5b6082;
+        --line: #dcdfec;
+        --brand: #4a3fd6;
+        --on-brand: #ffffff;
+        --soft: #e7e5fb;
+        --ok: #0b8a74;
+        --ok-soft: #d8f2ec;
+        --warn: #a86b00;
+        --warn-soft: #fbebc8;
+        --bad: #c93a52;
+        --shadow: 0 1px 2px rgba(23, 26, 51, 0.06);
+        --f-head: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+        --f-body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+        --f-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #101228;
+          --surface: #191c38;
+          --ink: #eceefb;
+          --muted: #a0a5c9;
+          --line: #2b2f58;
+          --brand: #9a92ff;
+          --on-brand: #101228;
+          --soft: #2a2762;
+          --ok: #46d1b4;
+          --ok-soft: #14383a;
+          --warn: #f0b84a;
+          --warn-soft: #3c3016;
+          --bad: #ff7088;
+          --shadow: none;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #101228;
+        --surface: #191c38;
+        --ink: #eceefb;
+        --muted: #a0a5c9;
+        --line: #2b2f58;
+        --brand: #9a92ff;
+        --on-brand: #101228;
+        --soft: #2a2762;
+        --ok: #46d1b4;
+        --ok-soft: #14383a;
+        --warn: #f0b84a;
+        --warn-soft: #3c3016;
+        --bad: #ff7088;
+        --shadow: none;
+      }
+      :root {
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: inherit;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 16px/1.55 var(--f-body);
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--f-head);
+        line-height: 1.15;
+        margin: 0 0 0.4em;
+        letter-spacing: -0.01em;
+      }
+      h1 {
+        font-size: clamp(1.8rem, 3.4vw, 2.5rem);
+        font-weight: 700;
+      }
+      h2 {
+        font-size: 1.45rem;
+        font-weight: 650;
+      }
+      h3 {
+        font-size: 1.1rem;
+        font-weight: 650;
+      }
+      a {
+        color: var(--brand);
+      }
+      p {
+        margin: 0.4em 0;
+      }
+      code {
+        font-family: var(--f-mono);
+        font-size: 0.88em;
+        background: var(--soft);
+        padding: 0.08em 0.35em;
+        border-radius: 5px;
+      }
+      :focus-visible {
+        outline: 3px solid var(--brand);
+        outline-offset: 2px;
+        border-radius: 6px;
+      }
+      .app {
+        display: grid;
+        grid-template-columns: 250px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+      #side {
+        position: sticky;
+        top: 0;
+        align-self: start;
+        height: 100vh;
+        padding: 22px 16px;
+        border-right: 1px solid var(--line);
+        background: var(--surface);
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        overflow: auto;
+      }
+      .brand {
+        display: flex;
+        gap: 11px;
+        align-items: center;
+      }
+      .brand b {
+        display: block;
+        font-family: var(--f-head);
+        font-size: 1.15rem;
+      }
+      .brand span:not(.logo) {
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+      .logo {
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
+        background: var(--brand);
+        color: var(--on-brand);
+        font-family: var(--f-head);
+        font-weight: 800;
+        font-size: 1.05rem;
+      }
+      nav {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+      nav a {
+        padding: 9px 12px;
+        border-radius: 9px;
+        color: var(--ink);
+        text-decoration: none;
+        font-weight: 550;
+      }
+      nav a:hover {
+        background: var(--bg);
+      }
+      nav a.on {
+        background: var(--soft);
+        color: var(--brand);
+        font-weight: 700;
+      }
+      .sideprog {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        font-size: 0.92rem;
+      }
+      #main {
+        padding: 34px clamp(16px, 3.5vw, 44px) 70px;
+        max-width: 1120px;
+        width: 100%;
+      }
+      .lead {
+        color: var(--muted);
+        max-width: 62ch;
+        margin-bottom: 20px;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 18px 20px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+      }
+      .rowb {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+      }
+      .rowb select {
+        margin-left: auto;
+      }
+      .bar {
+        height: 9px;
+        background: var(--bg);
+        border-radius: 99px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+      }
+      .bar i {
+        display: block;
+        height: 100%;
+        background: var(--brand);
+        border-radius: 99px;
+        transition: width 0.35s;
+      }
+      .bar.warn i {
+        background: var(--warn);
+      }
+      .btn {
+        display: inline-block;
+        border: 0;
+        background: var(--brand);
+        color: var(--on-brand);
+        font: inherit;
+        font-weight: 650;
+        padding: 10px 18px;
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .btn:hover {
+        filter: brightness(1.08);
+      }
+      .btn.ghost {
+        background: transparent;
+        color: var(--brand);
+        border: 1.5px solid var(--brand);
+      }
+      .btn.bad {
+        background: var(--bad);
+        color: #fff;
+      }
+      .btnrow {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      input,
+      select,
+      textarea {
+        font: inherit;
+        color: var(--ink);
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        padding: 9px 11px;
+        width: 100%;
+      }
+      textarea {
+        resize: vertical;
+        font-family: var(--f-body);
+      }
+      #bk {
+        font-family: var(--f-mono);
+        font-size: 0.78rem;
+      }
+      select {
+        width: auto;
+        max-width: 100%;
+      }
+      .fl {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin: 10px 0 0;
+      }
+      .fl.grow {
+        flex: 1;
+        min-width: 200px;
+      }
+      .pform {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        align-items: flex-end;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin: 18px 0;
+      }
+      .stat {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        margin: 0;
+        padding: 16px;
+      }
+      .stat .big {
+        font-family: var(--f-head);
+        font-size: 1.7rem;
+        font-weight: 700;
+        line-height: 1;
+        white-space: nowrap;
+      }
+      .stat .big.pace {
+        font-size: 1.05rem;
+        white-space: normal;
+        line-height: 1.2;
+      }
+      .pace.ok {
+        color: var(--ok);
+      }
+      .pace.warn {
+        color: var(--warn);
+      }
+      .stat .k {
+        font-weight: 650;
+      }
+      .ring {
+        --p: 0;
+        width: 64px;
+        height: 64px;
+        flex: none;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: conic-gradient(
+          var(--brand) calc(var(--p) * 1%),
+          var(--bg) 0
+        );
+      }
+      .ring span {
+        display: grid;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: var(--surface);
+        font-family: var(--f-head);
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+      .cols {
+        display: grid;
+        grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr);
+        gap: 22px;
+        align-items: start;
+      }
+      .cols2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .cols2 > .card {
+        margin-bottom: 16px;
+      }
+      .today-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .today-head h2 {
+        margin: 0;
+      }
+      .day {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 16px 20px 18px;
+        margin-bottom: 16px;
+      }
+      .day.today {
+        border: 2px solid var(--brand);
+      }
+      .day.full {
+        background: linear-gradient(0deg, var(--ok-soft), var(--surface) 55%);
+      }
+      .day header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+      }
+      .dno {
+        font-weight: 750;
+        margin-right: 10px;
+      }
+      .ddate {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-right: 10px;
+      }
+      .dcount {
+        font-weight: 650;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .tag {
+        font-size: 0.74rem;
+        font-weight: 700;
+        padding: 2px 9px;
+        border-radius: 99px;
+        margin-right: 6px;
+      }
+      .tag.now {
+        background: var(--brand);
+        color: var(--on-brand);
+      }
+      .tag.ok {
+        background: var(--ok-soft);
+        color: var(--ok);
+      }
+      .day h3 {
+        margin: 2px 0 10px;
+      }
+      .task {
+        display: flex;
+        gap: 12px;
+        padding: 10px 0;
+        border-top: 1px solid var(--line);
+      }
+      .task:first-of-type {
+        border-top: 0;
+      }
+      .tbody {
+        flex: 1;
+        min-width: 0;
+      }
+      .tt {
+        font-weight: 650;
+        display: flex;
+        gap: 10px;
+        align-items: baseline;
+      }
+      .task.on .tt {
+        color: var(--muted);
+        text-decoration: line-through;
+        text-decoration-thickness: 1px;
+      }
+      .mins {
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: var(--muted);
+        text-decoration: none;
+      }
+      .lnk {
+        display: block;
+        margin: 2px 0;
+        overflow-wrap: anywhere;
+      }
+      .chk {
+        position: relative;
+        flex: none;
+        width: 26px;
+        height: 26px;
+        margin-top: 1px;
+        cursor: pointer;
+      }
+      .chk input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
+      .box {
+        display: block;
+        width: 26px;
+        height: 26px;
+        border: 2px solid var(--muted);
+        border-radius: 8px;
+        transition:
+          background 0.15s,
+          border-color 0.15s;
+      }
+      .chk input:checked + .box {
+        background: var(--ok);
+        border-color: var(--ok);
+      }
+      .chk input:checked + .box::after {
+        content: "";
+        display: block;
+        width: 6px;
+        height: 12px;
+        border: solid #fff;
+        border-width: 0 3px 3px 0;
+        transform: translate(7px, 2px) rotate(45deg);
+      }
+      .chk input:focus-visible + .box {
+        outline: 3px solid var(--brand);
+        outline-offset: 2px;
+      }
+      .quizrow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 0;
+        border-top: 1px solid var(--line);
+        flex-wrap: wrap;
+      }
+      .minibars {
+        display: flex;
+        gap: 5px;
+        height: 110px;
+        align-items: flex-end;
+      }
+      .mb {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 4px;
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 0.72rem;
+      }
+      .mb i {
+        display: block;
+        width: 100%;
+        background: var(--brand);
+        border-radius: 4px 4px 0 0;
+        min-height: 4px;
+        opacity: 0.85;
+      }
+      .mb.cur span {
+        color: var(--brand);
+        font-weight: 800;
+      }
+      .badges {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .badge {
+        border: 1px dashed var(--line);
+        border-radius: 10px;
+        padding: 8px 10px;
+        opacity: 0.55;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        font-size: 0.78rem;
+      }
+      .badge b {
+        font-size: 0.86rem;
+      }
+      .badge span {
+        color: var(--muted);
+      }
+      .badge.got {
+        opacity: 1;
+        border: 1.5px solid var(--ok);
+        background: var(--ok-soft);
+      }
+      .phase {
+        margin-bottom: 28px;
+      }
+      .phead {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+      .phead h2 {
+        margin: 0;
+      }
+      .pp {
+        font-family: var(--f-head);
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--brand);
+      }
+      .tiles {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+        gap: 12px;
+      }
+      .tile {
+        --p: 0%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        min-height: 150px;
+        padding: 14px 16px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        text-decoration: none;
+        color: var(--ink);
+        background: linear-gradient(
+          to top,
+          var(--soft) var(--p),
+          var(--surface) var(--p)
+        );
+        overflow: hidden;
+      }
+      .tile:hover {
+        border-color: var(--brand);
+      }
+      .tile.cur {
+        border: 2px solid var(--brand);
+      }
+      .tile.full {
+        background: var(--ok-soft);
+        border-color: var(--ok);
+      }
+      .wn {
+        font-family: var(--f-head);
+        font-weight: 800;
+        font-size: 2.3rem;
+        line-height: 1;
+        color: var(--brand);
+      }
+      .tile.full .wn {
+        color: var(--ok);
+      }
+      .wt {
+        font-weight: 650;
+        line-height: 1.25;
+      }
+      .wd {
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+      .wp {
+        margin-top: auto;
+        font-weight: 700;
+        font-size: 0.85rem;
+      }
+      .rhythm {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .rhythm div {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+      .rhythm span {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+      .wkhead {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+      .wknav {
+        display: flex;
+        gap: 8px;
+      }
+      .wkhead h1 {
+        margin-bottom: 0.2em;
+      }
+      .topics {
+        margin: 0;
+        padding-left: 1.2em;
+        columns: 2;
+        column-gap: 30px;
+      }
+      .topics li {
+        margin: 3px 0;
+        break-inside: avoid;
+      }
+      .days {
+        margin-top: 6px;
+      }
+      .proj summary {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+        cursor: pointer;
+        list-style: none;
+      }
+      .proj summary::-webkit-details-marker {
+        display: none;
+      }
+      .pwk {
+        font-weight: 700;
+        color: var(--brand);
+        min-width: 60px;
+      }
+      .pname {
+        font-weight: 650;
+        flex: 1;
+        min-width: 160px;
+      }
+      .pst {
+        font-size: 0.78rem;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 99px;
+        background: var(--bg);
+      }
+      .st-doing {
+        background: var(--warn-soft);
+        color: var(--warn);
+      }
+      .st-done {
+        background: var(--ok-soft);
+        color: var(--ok);
+      }
+      .proj[open] summary {
+        margin-bottom: 10px;
+      }
+      .proj .pform {
+        margin-top: 8px;
+      }
+      .qlist {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .qitem {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: var(--ink);
+        margin: 0;
+        padding: 14px 18px;
+      }
+      .qitem:hover {
+        border-color: var(--brand);
+      }
+      .back {
+        display: inline-block;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+      fieldset.qq {
+        border: 1px solid var(--line);
+      }
+      .qq legend {
+        padding: 0 6px;
+      }
+      .qt {
+        font-weight: 650;
+        margin-bottom: 10px;
+      }
+      .opt {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        margin: 6px 0;
+        background: var(--bg);
+      }
+      .opt.pick {
+        cursor: pointer;
+      }
+      .opt.pick:hover {
+        border-color: var(--brand);
+      }
+      .opt.pick input {
+        width: auto;
+        accent-color: var(--brand);
+      }
+      .opt.right {
+        background: var(--ok-soft);
+        border-color: var(--ok);
+      }
+      .opt.wrong {
+        background: var(--warn-soft);
+        border-color: var(--bad);
+      }
+      .exp {
+        color: var(--muted);
+        margin-bottom: 0;
+      }
+      .filters {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .filters input {
+        max-width: 420px;
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        font: inherit;
+        font-weight: 600;
+        font-size: 0.88rem;
+        padding: 6px 14px;
+        border-radius: 99px;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--ink);
+        cursor: pointer;
+      }
+      .chip.on {
+        background: var(--brand);
+        color: var(--on-brand);
+        border-color: var(--brand);
+      }
+      .resgrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 14px;
+      }
+      .res {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        text-decoration: none;
+        color: var(--ink);
+        margin: 0;
+      }
+      .res:hover {
+        border-color: var(--brand);
+      }
+      .rc {
+        font-size: 0.76rem;
+        font-weight: 700;
+        color: var(--brand);
+      }
+      .empty {
+        color: var(--muted);
+        padding: 12px 0;
+      }
+      .timer {
+        font-family: var(--f-head);
+        font-size: 3rem;
+        font-weight: 700;
+        margin: 6px 0 12px;
+        font-variant-numeric: tabular-nums;
+      }
+      .daybars {
+        display: flex;
+        gap: 6px;
+        height: 120px;
+        align-items: flex-end;
+      }
+      .db {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.72rem;
+        color: var(--muted);
+      }
+      .db i {
+        display: block;
+        width: 100%;
+        background: var(--brand);
+        border-radius: 4px 4px 0 0;
+      }
+      .loglist {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .loglist li {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        padding: 9px 0;
+        border-top: 1px solid var(--line);
+        flex-wrap: wrap;
+      }
+      .loglist li:first-child {
+        border-top: 0;
+      }
+      .ld {
+        min-width: 110px;
+        color: var(--muted);
+      }
+      .lm {
+        font-weight: 700;
+        min-width: 64px;
+      }
+      .ln {
+        flex: 1;
+        min-width: 120px;
+      }
+      .x {
+        font: inherit;
+        font-size: 0.85rem;
+        background: none;
+        border: 0;
+        color: var(--bad);
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      .cert {
+        border: 2px solid var(--ok);
+        background: var(--ok-soft);
+      }
+      .danger {
+        border-color: var(--bad);
+      }
+      #toast {
+        position: fixed;
+        left: 50%;
+        bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+        transform: translate(-50%, 20px);
+        background: var(--ink);
+        color: var(--bg);
+        padding: 11px 18px;
+        border-radius: 11px;
+        font-weight: 600;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+        z-index: 50;
+        max-width: 92vw;
+      }
+      #toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      @media (max-width: 1020px) {
+        .stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .cols {
+          grid-template-columns: 1fr;
+        }
+        .rhythm {
+          grid-template-columns: 1fr;
+        }
+        .cols2 {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 820px) {
+        .app {
+          grid-template-columns: 1fr;
+        }
+        #side {
+          position: sticky;
+          top: 0;
+          z-index: 20;
+          height: auto;
+          flex-direction: row;
+          align-items: center;
+          gap: 10px;
+          padding: 8px 12px;
+          padding-top: calc(8px + env(safe-area-inset-top, 0px));
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+          overflow-x: auto;
+        }
+        :root {
+          padding-top: 0;
+        }
+        .brand div,
+        .sideprog {
+          display: none;
+        }
+        nav {
+          flex-direction: row;
+          gap: 2px;
+        }
+        nav a {
+          white-space: nowrap;
+          padding: 8px 11px;
+        }
+        .topics {
+          columns: 1;
+        }
+        .badges {
+          grid-template-columns: 1fr 1fr;
+        }
+        #main {
+          padding-top: 22px;
+        }
+      }
+      @media (max-width: 480px) {
+        .stats {
+          grid-template-columns: 1fr;
+        }
+        .tiles {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside id="side"></aside>
+      <main id="main"></main>
+    </div>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script>
+      const W3 = (p) => "https://www.w3schools.com/js/" + p,
+        JI = (p) => "https://javascript.info/" + p,
+        MDN = (p) => "https://developer.mozilla.org/en-US/docs/" + p;
+      const YT = (q) =>
+        "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+      const D = (t, v, ch, r, p) => ({ t, v, ch, r, p });
+      const PHASES = [
+        {
+          name: "Core engine",
+          weeks: [1, 4],
+          blurb: "How JavaScript really works under the hood.",
+        },
+        {
+          name: "Browser and async",
+          weeks: [5, 8],
+          blurb: "Modules, the DOM, promises, APIs and storage.",
+        },
+        {
+          name: "Tooling, Node and TypeScript",
+          weeks: [9, 12],
+          blurb: "The workflow real developers use.",
+        },
+        {
+          name: "Capstone",
+          weeks: [13, 14],
+          blurb: "Build, polish and ship one real app.",
+        },
+      ];
+      const WEEKS = [
+        {
+          n: 1,
+          title: "Scope, hoisting and closures",
+          goal: "Know exactly which variables a function can see, and why.",
+          topics: [
+            "var, let and const",
+            "Block vs function scope",
+            "Hoisting and the temporal dead zone",
+            "Lexical scope and the scope chain",
+            "Closures",
+            "IIFEs and strict mode",
+          ],
+          days: [
+            D(
+              "var, let and const",
+              "javascript var let const difference explained",
+              "Web Dev Simplified, freeCodeCamp",
+              [
+                ["W3Schools: JS Scope", W3("js_scope.asp")],
+                ['javascript.info: The old "var"', JI("var")],
+              ],
+              "Rewrite 5 snippets using let/const instead of var. Predict the output of a loop with var vs let before running it.",
+            ),
+            D(
+              "Hoisting and the temporal dead zone",
+              "javascript hoisting temporal dead zone explained",
+              "Programming with Mosh, Fireship",
+              [
+                ["W3Schools: Hoisting", W3("js_hoisting.asp")],
+                ["MDN: Hoisting", MDN("Glossary/Hoisting")],
+              ],
+              "Write 6 tiny snippets that use a name before its declaration (var, let, function declaration, function expression). Predict, then run.",
+            ),
+            D(
+              "Lexical scope and the scope chain",
+              "javascript lexical scope and scope chain",
+              "Web Dev Simplified, Namaste JavaScript",
+              [
+                ["javascript.info: Variable scope and closure", JI("closure")],
+                ["W3Schools: JS Functions", W3("js_function_definition.asp")],
+              ],
+              "Draw the scope chain of a 3-level nested function on paper, then verify each lookup with console.log.",
+            ),
+            D(
+              "Closures",
+              "javascript closures explained",
+              "Fireship, Web Dev Simplified",
+              [
+                ["W3Schools: Closures", W3("js_function_closures.asp")],
+                ["MDN: Closures", MDN("Web/JavaScript/Closures")],
+              ],
+              "Build makeCounter() with increment, decrement and reset. Explain out loud why the count survives between calls.",
+            ),
+            D(
+              "Closure patterns and strict mode",
+              "javascript closure practical examples private variables IIFE",
+              "Traversy Media, freeCodeCamp",
+              [
+                ["W3Schools: Strict mode", W3("js_strict.asp")],
+                ["javascript.info: Closure", JI("closure")],
+              ],
+              "Implement once(fn) and a simple memoize(fn). Use an IIFE to create a private module.",
+            ),
+          ],
+          proj: {
+            name: "Closure Toolkit",
+            desc: "A small utility library built entirely with closures.",
+            reqs: [
+              "Counter factory with private state",
+              "once(fn) runs a function only one time",
+              "memoize(fn) caches results by arguments",
+              "bankAccount() exposes deposit and balance but hides the balance variable",
+              "README that explains where closures are used",
+            ],
+            stretch: "Add rateLimit(fn, ms) and debounce(fn, ms) helpers.",
+          },
+          quiz: [
+            {
+              q: "What does this log? `for (var i = 0; i < 3; i++) { setTimeout(() => console.log(i), 0); }`",
+              o: ["0 1 2", "3 3 3", "undefined three times", "0 0 0"],
+              a: 1,
+              e: "var is function-scoped, so every callback shares one i. By the time the callbacks run, the loop has finished and i is 3.",
+            },
+            {
+              q: "What is a closure?",
+              o: [
+                "A function with no parameters",
+                "A function that runs immediately",
+                "A function bundled with access to its outer lexical scope",
+                "A way to close a browser tab",
+              ],
+              a: 2,
+              e: "A closure is a function plus the variables from the scope where it was created. It keeps access to them even after the outer function has returned.",
+            },
+          ],
+        },
+        {
+          n: 2,
+          title: "this, call/apply/bind and prototypes",
+          goal: "Predict what this points to and understand how objects inherit.",
+          topics: [
+            "How this is decided",
+            "call, apply and bind",
+            "Arrow functions and this",
+            "Constructor functions and new",
+            "Prototypes and the prototype chain",
+          ],
+          days: [
+            D(
+              "How this works",
+              "javascript this keyword explained",
+              "Web Dev Simplified, Traversy Media",
+              [
+                ["W3Schools: The this keyword", W3("js_this.asp")],
+                [
+                  "javascript.info: Object methods and this",
+                  JI("object-methods"),
+                ],
+              ],
+              "Write one object with a method, then copy the method to a variable and call it. Note what this becomes and why.",
+            ),
+            D(
+              "call, apply and bind",
+              "javascript call apply bind explained",
+              "Web Dev Simplified, Fireship",
+              [
+                ["W3Schools: call()", W3("js_function_call.asp")],
+                ["W3Schools: apply()", W3("js_function_apply.asp")],
+                ["javascript.info: Function binding", JI("bind")],
+              ],
+              "Fix a lost-this bug in three ways: bind, call inside a wrapper, and an arrow function.",
+            ),
+            D(
+              "Arrow functions and this",
+              "javascript arrow functions vs regular functions this",
+              "Programming with Mosh, freeCodeCamp",
+              [
+                ["W3Schools: Arrow functions", W3("js_arrow_function.asp")],
+                ["javascript.info: Arrow functions", JI("arrow-functions")],
+              ],
+              "Convert 5 regular functions to arrows. Find one case where an arrow function is the wrong choice.",
+            ),
+            D(
+              "Constructor functions and new",
+              "javascript constructor functions new keyword",
+              "Traversy Media, Net Ninja",
+              [
+                [
+                  "W3Schools: Object constructors",
+                  W3("js_object_constructors.asp"),
+                ],
+                [
+                  "javascript.info: Constructor, operator new",
+                  JI("constructor-new"),
+                ],
+              ],
+              "Create a Book constructor, then make 3 books. Check each with instanceof.",
+            ),
+            D(
+              "Prototypes and the prototype chain",
+              "javascript prototype chain explained",
+              "Fireship, Web Dev Simplified",
+              [
+                ["W3Schools: Prototypes", W3("js_object_prototypes.asp")],
+                [
+                  "javascript.info: Prototypal inheritance",
+                  JI("prototype-inheritance"),
+                ],
+                [
+                  "MDN: Inheritance and the prototype chain",
+                  MDN("Web/JavaScript/Inheritance_and_the_prototype_chain"),
+                ],
+              ],
+              "Move a method from the constructor onto Book.prototype. Log Object.getPrototypeOf() at each level of the chain.",
+            ),
+          ],
+          proj: {
+            name: "Mini Library",
+            desc: "A library of books built with constructor functions and prototypes.",
+            reqs: [
+              "Book and Library constructors",
+              "Shared methods live on prototypes, not on each instance",
+              "addBook, removeBook, findByAuthor methods",
+              "One bug fixed with bind and one with an arrow function",
+              "Console demo showing the prototype chain",
+            ],
+            stretch:
+              "Add a Member constructor that inherits from a Person prototype.",
+          },
+          quiz: [
+            {
+              q: "In strict mode, what is this inside a plain function call like fn()?",
+              o: ["window", "undefined", "The function itself", "null"],
+              a: 1,
+              e: "In strict mode, a standalone call gets undefined for this. In sloppy mode it falls back to the global object.",
+            },
+            {
+              q: "How do arrow functions treat this?",
+              o: [
+                "They get their own this on every call",
+                "They always point this to window",
+                "They inherit this from the surrounding scope",
+                "They cannot use this at all",
+              ],
+              a: 2,
+              e: "Arrow functions have no this of their own. They use the this of the scope where they were written.",
+            },
+          ],
+        },
+        {
+          n: 3,
+          title: "Classes and object-oriented patterns",
+          goal: "Model real things with classes, inheritance and custom errors.",
+          topics: [
+            "Class syntax",
+            "extends and super",
+            "Static members, getters/setters, private fields",
+            "Composition vs inheritance",
+            "Custom errors and try/catch",
+          ],
+          days: [
+            D(
+              "Class syntax",
+              "javascript classes tutorial",
+              "Traversy Media, freeCodeCamp",
+              [
+                ["W3Schools: Classes", W3("js_classes.asp")],
+                ["javascript.info: Class basic syntax", JI("class")],
+              ],
+              "Rewrite your Book constructor from Week 2 as a class. Confirm methods are still on the prototype.",
+            ),
+            D(
+              "Inheritance with extends and super",
+              "javascript class inheritance extends super",
+              "Web Dev Simplified, Programming with Mosh",
+              [
+                [
+                  "W3Schools: Class inheritance",
+                  W3("js_class_inheritance.asp"),
+                ],
+                ["javascript.info: Class inheritance", JI("class-inheritance")],
+              ],
+              "Create Vehicle, then Car and Truck that extend it. Override one method and call super.method().",
+            ),
+            D(
+              "Static, getters/setters and private fields",
+              "javascript static methods getters setters private fields",
+              "Web Dev Simplified, Net Ninja",
+              [
+                ["W3Schools: Static methods", W3("js_class_static.asp")],
+                [
+                  "javascript.info: Static properties and methods",
+                  JI("static-properties-methods"),
+                ],
+                [
+                  "javascript.info: Private and protected",
+                  JI("private-protected-properties-methods"),
+                ],
+              ],
+              "Add a #balance private field, a get balance() and a static method that compares two accounts.",
+            ),
+            D(
+              "Composition vs inheritance",
+              "composition over inheritance javascript",
+              "Fireship, Web Dev Simplified",
+              [
+                ["javascript.info: Mixins", JI("mixins")],
+                ["MDN: Classes", MDN("Web/JavaScript/Reference/Classes")],
+              ],
+              "Build a Flyer and a Swimmer mixin and combine them into a Duck without a deep class tree.",
+            ),
+            D(
+              "Errors and custom errors",
+              "javascript error handling try catch custom errors",
+              "Traversy Media, freeCodeCamp",
+              [
+                ["W3Schools: Errors", W3("js_errors.asp")],
+                ["javascript.info: Custom errors", JI("custom-errors")],
+              ],
+              "Create InsufficientFundsError extends Error. Throw it and handle it with try/catch/finally.",
+            ),
+          ],
+          proj: {
+            name: "Bank Account System",
+            desc: "A class-based banking model, with or without a DOM interface.",
+            reqs: [
+              "Account base class with private balance",
+              "SavingsAccount and CurrentAccount subclasses",
+              "deposit and withdraw with validation",
+              "Custom InsufficientFundsError handled with try/catch",
+              "Transaction history using a getter",
+            ],
+            stretch: "Add a simple HTML interface to operate accounts.",
+          },
+          quiz: [
+            {
+              q: "In a derived class constructor, what must you do before using this?",
+              o: [
+                "Call super()",
+                "Call new this()",
+                "Declare a static field",
+                "Nothing, this is ready",
+              ],
+              a: 0,
+              e: "A derived constructor must call super() first. That is what creates the object that this refers to.",
+            },
+            {
+              q: "Which syntax declares a private class field?",
+              o: ["_balance", "private balance", "#balance", "balance#"],
+              a: 2,
+              e: "A leading # makes the field truly private to the class body. The underscore is only a naming convention.",
+            },
+          ],
+        },
+        {
+          n: 4,
+          title: "Modern syntax and functional patterns",
+          goal: "Write concise modern JavaScript and transform data with array methods.",
+          topics: [
+            "Destructuring, spread and rest",
+            "Template literals, ?. and ??",
+            "map, filter, find, some, every",
+            "reduce, sort and chaining",
+            "Pure functions, immutability, currying",
+          ],
+          days: [
+            D(
+              "Destructuring, spread and rest",
+              "javascript destructuring spread rest operator",
+              "Web Dev Simplified, freeCodeCamp",
+              [
+                ["W3Schools: Destructuring", W3("js_destructuring.asp")],
+                [
+                  "javascript.info: Destructuring assignment",
+                  JI("destructuring-assignment"),
+                ],
+                [
+                  "javascript.info: Rest and spread",
+                  JI("rest-parameters-spread"),
+                ],
+              ],
+              "Destructure nested objects and arrays. Clone and merge objects with spread. Write a function using rest parameters.",
+            ),
+            D(
+              "Template literals, optional chaining, nullish coalescing",
+              "javascript optional chaining nullish coalescing template literals",
+              "Fireship, Traversy Media",
+              [
+                ["W3Schools: Template strings", W3("js_string_templates.asp")],
+                ["javascript.info: Optional chaining", JI("optional-chaining")],
+                [
+                  "javascript.info: Nullish coalescing",
+                  JI("nullish-coalescing-operator"),
+                ],
+              ],
+              "Safely read user.address?.city on 5 messy objects, with ?? defaults. Build a multi-line template string.",
+            ),
+            D(
+              "map, filter, find, some, every",
+              "javascript array methods map filter find",
+              "Web Dev Simplified, Traversy Media",
+              [
+                ["W3Schools: Array iteration", W3("js_array_iteration.asp")],
+                ["javascript.info: Array methods", JI("array-methods")],
+              ],
+              "Given an array of 10 products, list names of those under a price, find one by id, and check if all are in stock.",
+            ),
+            D(
+              "reduce, sort and method chaining",
+              "javascript reduce explained sort chaining",
+              "Web Dev Simplified, Fireship",
+              [
+                ["W3Schools: Array sort", W3("js_array_sort.asp")],
+                ["javascript.info: Array methods", JI("array-methods")],
+              ],
+              "Use reduce to sum, to group by category, and to count occurrences. Chain filter, map and sort in one expression.",
+            ),
+            D(
+              "Pure functions, immutability and currying",
+              "javascript functional programming pure functions currying",
+              "Fireship, freeCodeCamp",
+              [
+                ["javascript.info: Currying", JI("currying-partials")],
+                ["javascript.info: Function object", JI("function-object")],
+              ],
+              "Refactor 3 impure functions to be pure. Write a curried add(a)(b)(c) and a compose(f, g) helper.",
+            ),
+          ],
+          proj: {
+            name: "Data Report Engine",
+            desc: "Turn a raw dataset into reports using only array methods and pure functions.",
+            reqs: [
+              "Dataset of at least 20 records (students, sales or transactions)",
+              "Report: totals, averages and top 3 using reduce and sort",
+              "Group-by function written with reduce",
+              "All updates immutable (spread, map), original data never changed",
+              "Results rendered in the console or a simple HTML table",
+            ],
+            stretch:
+              "Add currying so reports can be configured: report(by)(metric)(data).",
+          },
+          quiz: [
+            {
+              q: "What does [1, 2, 3].map(x => x * 2) do to the original array?",
+              o: [
+                "Doubles every value in place",
+                "Returns a new array and leaves the original unchanged",
+                "Returns undefined",
+                "Sorts it",
+              ],
+              a: 1,
+              e: "map never mutates. It returns a brand-new array of the results.",
+            },
+            {
+              q: "After const { a, ...rest } = { a: 1, b: 2, c: 3 }, what is rest?",
+              o: ["{ a: 1 }", "[2, 3]", "{ b: 2, c: 3 }", "undefined"],
+              a: 2,
+              e: "Rest in destructuring collects all remaining properties into a new object.",
+            },
+          ],
+        },
+        {
+          n: 5,
+          title: "Modules and the DOM in depth",
+          goal: "Split code into modules and build dynamic interfaces with events.",
+          topics: [
+            "ES modules (import/export)",
+            "Selecting and changing the DOM",
+            "Event listeners and the event object",
+            "Bubbling, capturing and delegation",
+            "Rendering lists and UI components",
+          ],
+          days: [
+            D(
+              "ES modules",
+              "javascript es6 modules import export",
+              "Traversy Media, Web Dev Simplified",
+              [
+                ["W3Schools: Modules", W3("js_modules.asp")],
+                ["javascript.info: Modules intro", JI("modules-intro")],
+                ["javascript.info: Export and import", JI("import-export")],
+              ],
+              'Split a small script into 3 module files with named and default exports. Load them with type="module".',
+            ),
+            D(
+              "Selecting, creating and changing the DOM",
+              "javascript dom manipulation tutorial",
+              "Traversy Media, freeCodeCamp",
+              [
+                ["W3Schools: DOM nodes", W3("js_htmldom_nodes.asp")],
+                [
+                  "javascript.info: Modifying the document",
+                  JI("modifying-document"),
+                ],
+              ],
+              "Build a list from an array using createElement and append. Add, edit and remove items with JavaScript.",
+            ),
+            D(
+              "Events and the event object",
+              "javascript events addEventListener tutorial",
+              "Web Dev Simplified, Net Ninja",
+              [
+                [
+                  "W3Schools: addEventListener",
+                  W3("js_htmldom_eventlistener.asp"),
+                ],
+                [
+                  "javascript.info: Browser events",
+                  JI("introduction-browser-events"),
+                ],
+              ],
+              "Handle click, input, keydown and submit. Log event.target, event.type and use preventDefault.",
+            ),
+            D(
+              "Bubbling, capturing and event delegation",
+              "javascript event bubbling capturing event delegation",
+              "Web Dev Simplified, Fireship",
+              [
+                [
+                  "javascript.info: Bubbling and capturing",
+                  JI("bubbling-and-capturing"),
+                ],
+                ["javascript.info: Event delegation", JI("event-delegation")],
+              ],
+              "Replace 20 individual button listeners with one delegated listener on the parent. Test with dynamically added items.",
+            ),
+            D(
+              "Dynamic UI patterns",
+              "javascript build modal tabs accordion vanilla",
+              "Traversy Media, Kevin Powell",
+              [
+                ["W3Schools: DOM navigation", W3("js_htmldom_navigation.asp")],
+                [
+                  "MDN: DOM introduction",
+                  MDN("Web/API/Document_Object_Model/Introduction"),
+                ],
+              ],
+              "Build a tabs component and a modal using class toggling and delegation. Keep rendering in one render() function.",
+            ),
+          ],
+          proj: {
+            name: "Task Board (Kanban)",
+            desc: "A multi-column task board built with modules and event delegation.",
+            reqs: [
+              "Code split into at least 3 modules (state, render, events)",
+              "Add, edit and delete tasks",
+              "Move tasks between columns",
+              "One delegated listener per column",
+              "Clean render() function driven by a state object",
+            ],
+            stretch: "Add drag-and-drop with the HTML Drag and Drop API.",
+          },
+          quiz: [
+            {
+              q: "Why use event delegation?",
+              o: [
+                "It makes events fire faster",
+                "One listener on a parent handles events from many children, including ones added later",
+                "It stops events from bubbling",
+                "It is required by ES modules",
+              ],
+              a: 1,
+              e: "Events bubble up, so a single parent listener can use event.target to handle any child, even elements created after the listener was added.",
+            },
+            {
+              q: "Which attribute makes a script load as an ES module?",
+              o: ["module", "defer", 'type="module"', 'async="module"'],
+              a: 2,
+              e: 'Use <script type="module" src="..."> to enable import and export.',
+            },
+          ],
+        },
+        {
+          n: 6,
+          title: "Async I: event loop, callbacks and promises",
+          goal: "Understand how JavaScript runs code over time and use promises confidently.",
+          topics: [
+            "Call stack and event loop",
+            "Timers and callbacks",
+            "Promise basics",
+            "Chaining, catch and finally",
+            "Promise.all, allSettled, race, any and microtasks",
+          ],
+          days: [
+            D(
+              "The call stack and the event loop",
+              "what the heck is the event loop anyway Philip Roberts",
+              "Philip Roberts (JSConf), Fireship",
+              [
+                ["javascript.info: Event loop", JI("event-loop")],
+                [
+                  "Loupe: event loop visualizer",
+                  "http://latentflip.com/loupe/",
+                ],
+                ["MDN: Event loop", MDN("Web/JavaScript/Event_loop")],
+              ],
+              "Predict the output of 5 snippets mixing console.log and setTimeout. Verify each in Loupe.",
+            ),
+            D(
+              "Timers and callbacks",
+              "javascript callbacks setTimeout callback hell",
+              "Traversy Media, Web Dev Simplified",
+              [
+                ["W3Schools: Callbacks", W3("js_callback.asp")],
+                ["W3Schools: Timing events", W3("js_timing.asp")],
+                ["javascript.info: Callbacks", JI("callbacks")],
+              ],
+              "Write 3 dependent steps with nested callbacks and feel the pyramid. Add a setInterval clock you can stop.",
+            ),
+            D(
+              "Promise basics",
+              "javascript promises explained for beginners",
+              "Web Dev Simplified, Fireship",
+              [
+                ["W3Schools: Promises", W3("js_promise.asp")],
+                ["javascript.info: Promise", JI("promise-basics")],
+              ],
+              "Wrap setTimeout in a delay(ms) promise. Create promises that resolve, reject and never settle.",
+            ),
+            D(
+              "Chaining, catch and finally",
+              "javascript promise chaining catch finally",
+              "Traversy Media, Programming with Mosh",
+              [
+                ["javascript.info: Promise chaining", JI("promise-chaining")],
+                [
+                  "javascript.info: Error handling with promises",
+                  JI("promise-error-handling"),
+                ],
+              ],
+              "Turn your Day 2 callback pyramid into a flat promise chain with one catch.",
+            ),
+            D(
+              "Promise combinators and microtasks",
+              "javascript Promise.all allSettled race any microtask queue",
+              "Web Dev Simplified, Fireship",
+              [
+                ["javascript.info: Promise API", JI("promise-api")],
+                ["javascript.info: Microtasks", JI("microtask-queue")],
+              ],
+              "Run 3 fake requests in parallel with Promise.all, then with allSettled when one fails. Add a timeout using race.",
+            ),
+          ],
+          proj: {
+            name: "Promise Playground",
+            desc: "A set of async utilities with a visual timeline in the DOM.",
+            reqs: [
+              "delay(ms) and a fake API that fails randomly",
+              "retry(fn, times) with increasing wait",
+              "Parallel loader using Promise.all and allSettled",
+              "timeout(promise, ms) using Promise.race",
+              "Events displayed on a simple timeline in the page",
+            ],
+            stretch:
+              "Add a concurrency limiter that runs at most 3 tasks at once.",
+          },
+          quiz: [
+            {
+              q: 'What is the log order? `console.log("A"); setTimeout(() => console.log("B"), 0); Promise.resolve().then(() => console.log("C")); console.log("D");`',
+              o: ["A B C D", "A D B C", "A D C B", "A C D B"],
+              a: 2,
+              e: "Synchronous code runs first (A, D). Promise callbacks are microtasks and run before timer callbacks (C, then B).",
+            },
+            {
+              q: "When does Promise.all reject?",
+              o: [
+                "When all promises reject",
+                "When the first promise rejects",
+                "Never, it collects errors",
+                "Only after all settle",
+              ],
+              a: 1,
+              e: "Promise.all fails fast. Use Promise.allSettled when you need every result regardless of failures.",
+            },
+          ],
+        },
+        {
+          n: 7,
+          title: "Async II: async/await, fetch and APIs",
+          goal: "Fetch real data, handle errors and build UI states around it.",
+          topics: [
+            "async/await",
+            "fetch and HTTP basics",
+            "JSON",
+            "Async error handling and UI states",
+            "AbortController, search and pagination",
+          ],
+          days: [
+            D(
+              "async and await",
+              "javascript async await tutorial",
+              "Web Dev Simplified, Traversy Media",
+              [
+                ["W3Schools: Async", W3("js_async.asp")],
+                ["javascript.info: Async/await", JI("async-await")],
+              ],
+              "Rewrite your Week 6 promise chain with async/await. Run two awaits in parallel with Promise.all.",
+            ),
+            D(
+              "fetch and HTTP basics",
+              "javascript fetch api tutorial GET POST",
+              "Traversy Media, freeCodeCamp",
+              [
+                ["W3Schools: Fetch API", W3("js_api_fetch.asp")],
+                ["javascript.info: Fetch", JI("fetch")],
+              ],
+              "Fetch a list from a public API and log it. Send a POST request to a test API. Check response.ok and status.",
+            ),
+            D(
+              "JSON and API data",
+              "javascript json parse stringify working with api data",
+              "Web Dev Simplified, Programming with Mosh",
+              [
+                ["W3Schools: JSON", W3("js_json_intro.asp")],
+                ["javascript.info: JSON methods", JI("json")],
+              ],
+              "Transform a nested API response into the shape your UI needs. Practice JSON.stringify with a replacer.",
+            ),
+            D(
+              "Async errors and UI states",
+              "javascript fetch error handling loading state",
+              "Traversy Media, Net Ninja",
+              [
+                ["javascript.info: Error handling", JI("try-catch")],
+                ["W3Schools: Errors", W3("js_errors.asp")],
+              ],
+              "Show loading, error and empty states for a fetch. Remember: fetch only rejects on network failure, so check response.ok.",
+            ),
+            D(
+              "AbortController, search and pagination",
+              "javascript fetch abort controller search pagination debounce",
+              "Web Dev Simplified, Fireship",
+              [
+                ["javascript.info: Fetch abort", JI("fetch-abort")],
+                [
+                  "Public APIs list",
+                  "https://github.com/public-apis/public-apis",
+                ],
+              ],
+              "Add a search box that cancels the previous request. Add Next and Previous page buttons.",
+            ),
+          ],
+          proj: {
+            name: "API Explorer",
+            desc: "A movie, weather or country explorer powered by a public API.",
+            reqs: [
+              "Search with live results",
+              "Loading, error and empty states",
+              "Details view for one item",
+              "Request cancellation with AbortController",
+              "Responsive layout",
+            ],
+            stretch: "Cache results in memory so repeat searches are instant.",
+          },
+          quiz: [
+            {
+              q: "A fetch() call gets a 404 response. What happens?",
+              o: [
+                "The promise rejects",
+                "The promise resolves, and response.ok is false",
+                "It throws a SyntaxError",
+                "It retries automatically",
+              ],
+              a: 1,
+              e: "fetch only rejects on network failure. HTTP errors still resolve, so always check response.ok.",
+            },
+            {
+              q: "What does an async function always return?",
+              o: [
+                "The returned value directly",
+                "undefined",
+                "A Promise",
+                "A callback",
+              ],
+              a: 2,
+              e: "Whatever you return is wrapped in a Promise, and a thrown error becomes a rejection.",
+            },
+          ],
+        },
+        {
+          n: 8,
+          title: "Storage, forms and performance",
+          goal: "Persist data, validate input and keep interfaces fast and accessible.",
+          topics: [
+            "localStorage and sessionStorage",
+            "Forms and validation",
+            "Debounce and throttle",
+            "Date, Map and Set",
+            "Performance and accessibility basics",
+          ],
+          days: [
+            D(
+              "localStorage and sessionStorage",
+              "javascript localstorage tutorial",
+              "Traversy Media, Web Dev Simplified",
+              [
+                ["W3Schools: Web Storage", W3("js_api_web_storage.asp")],
+                ["javascript.info: localStorage", JI("localstorage")],
+              ],
+              "Save and restore an array of objects with JSON.stringify and JSON.parse. Handle empty or corrupt data safely.",
+            ),
+            D(
+              "Forms and validation",
+              "javascript form validation tutorial",
+              "Traversy Media, freeCodeCamp",
+              [
+                ["W3Schools: Validation", W3("js_validation.asp")],
+                ["javascript.info: Form submit", JI("forms-submit")],
+              ],
+              "Validate a signup form on submit and on input. Show clear error messages next to each field.",
+            ),
+            D(
+              "Debounce and throttle",
+              "javascript debounce throttle explained",
+              "Web Dev Simplified, Fireship",
+              [
+                ["javascript.info: Decorators", JI("call-apply-decorators")],
+                ["W3Schools: Best practices", W3("js_best_practices.asp")],
+              ],
+              "Write debounce and throttle yourself. Use debounce on a search input and throttle on window scroll.",
+            ),
+            D(
+              "Dates, Map and Set",
+              "javascript date object map set",
+              "Programming with Mosh, Traversy Media",
+              [
+                ["W3Schools: Dates", W3("js_dates.asp")],
+                ["javascript.info: Map and Set", JI("map-set")],
+                ["javascript.info: Date", JI("date")],
+              ],
+              "Format dates with Intl.DateTimeFormat. Remove duplicates with Set and count words with Map.",
+            ),
+            D(
+              "Performance and accessibility basics",
+              "web performance accessibility basics aria keyboard navigation",
+              "Kevin Powell, Fireship",
+              [
+                ["W3Schools: Performance", W3("js_performance.asp")],
+                [
+                  "web.dev: Learn Accessibility",
+                  "https://web.dev/learn/accessibility",
+                ],
+              ],
+              "Make your Week 5 task board keyboard accessible. Run a Lighthouse audit in DevTools and fix two items.",
+            ),
+          ],
+          proj: {
+            name: "Expense Tracker",
+            desc: "A finance tracker that remembers your data.",
+            reqs: [
+              "Add and delete transactions with validation",
+              "Data persists in localStorage",
+              "Filter by category and month",
+              "Debounced search",
+              "Backup by copying and pasting JSON",
+            ],
+            stretch: "Add a chart of spending by category.",
+          },
+          quiz: [
+            {
+              q: "What can localStorage store directly?",
+              o: ["Objects", "Arrays", "Strings only", "Functions"],
+              a: 2,
+              e: "Values are saved as strings. Use JSON.stringify to save objects and JSON.parse to read them.",
+            },
+            {
+              q: "What does debouncing a function do?",
+              o: [
+                "Runs it at most once per interval",
+                "Delays it until calls have stopped for a set time",
+                "Runs it twice",
+                "Runs it on a background thread",
+              ],
+              a: 1,
+              e: "Debounce waits for a pause in activity (for example typing) before running. Throttle limits how often it runs.",
+            },
+          ],
+        },
+        {
+          n: 9,
+          title: "Git, GitHub and npm",
+          goal: "Track your work, collaborate through GitHub and manage dependencies.",
+          topics: [
+            "Git basics",
+            "Branches, merging and conflicts",
+            "GitHub, pull requests and README",
+            "npm, package.json and scripts",
+            "Using libraries and .gitignore",
+          ],
+          days: [
+            D(
+              "Git basics",
+              "git and github crash course for beginners",
+              "freeCodeCamp, Traversy Media",
+              [
+                [
+                  "W3Schools: Git tutorial",
+                  "https://www.w3schools.com/git/default.asp",
+                ],
+                ["Pro Git book", "https://git-scm.com/book/en/v2"],
+              ],
+              "Create a repo, make 5 commits with clear messages, and read the history with git log --oneline.",
+            ),
+            D(
+              "Branches, merging and conflicts",
+              "git branches merge conflicts tutorial",
+              "Web Dev Simplified, Fireship",
+              [
+                [
+                  "Pro Git: Branching",
+                  "https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell",
+                ],
+                [
+                  "W3Schools: Git branch",
+                  "https://www.w3schools.com/git/git_branch.asp",
+                ],
+              ],
+              "Create a feature branch, change the same line on two branches, merge, and resolve the conflict.",
+            ),
+            D(
+              "GitHub, pull requests and README",
+              "github pull request workflow readme tutorial",
+              "freeCodeCamp, Traversy Media",
+              [
+                [
+                  "GitHub docs: About GitHub and Git",
+                  "https://docs.github.com/en/get-started/start-your-journey/about-github-and-git",
+                ],
+              ],
+              "Push your repo to GitHub. Open a pull request from a feature branch and merge it. Write a proper README.",
+            ),
+            D(
+              "npm and package.json",
+              "npm package.json tutorial for beginners",
+              "Traversy Media, Net Ninja",
+              [
+                ["npm docs: About npm", "https://docs.npmjs.com/about-npm"],
+                [
+                  "W3Schools: Node.js NPM",
+                  "https://www.w3schools.com/nodejs/nodejs_npm.asp",
+                ],
+              ],
+              "Run npm init, install a package, add a custom script, and explain what package-lock.json does.",
+            ),
+            D(
+              "Using libraries, .gitignore and env files",
+              "how to use npm libraries javascript gitignore env",
+              "Web Dev Simplified, Traversy Media",
+              [
+                ["date-fns", "https://date-fns.org/"],
+                [
+                  "GitHub docs: Ignoring files",
+                  "https://docs.github.com/en/get-started/git-basics/ignoring-files",
+                ],
+              ],
+              "Add date-fns to a project, read its docs to use two functions, and ignore node_modules and .env.",
+            ),
+          ],
+          proj: {
+            name: "Portfolio Repo",
+            desc: "Publish everything you have built so far.",
+            reqs: [
+              "Weeks 1 to 8 projects pushed to GitHub",
+              "Each repo has a README with description and screenshots",
+              "At least one feature branch merged by pull request",
+              "Commit messages are clear and small",
+              "Two projects live on GitHub Pages",
+            ],
+            stretch: "Create a profile README that links your best projects.",
+          },
+          quiz: [
+            {
+              q: "Which command creates a new branch and switches to it?",
+              o: [
+                "git branch -d feature",
+                "git switch -c feature",
+                "git merge feature",
+                "git stash feature",
+              ],
+              a: 1,
+              e: "git switch -c feature (or git checkout -b feature) creates the branch and moves you onto it.",
+            },
+            {
+              q: "What does package-lock.json do?",
+              o: [
+                "Locks the repository from edits",
+                "Records exact installed dependency versions",
+                "Stores your npm password",
+                "Lists your scripts",
+              ],
+              a: 1,
+              e: "It pins the exact versions installed so everyone gets the same dependency tree.",
+            },
+          ],
+        },
+        {
+          n: 10,
+          title: "Vite, debugging and testing",
+          goal: "Work in a modern dev environment and trust your code with tests.",
+          topics: [
+            "Vite project setup",
+            "Debugging with DevTools",
+            "Unit testing with Vitest",
+            "Testing pure functions, mocks and async code",
+            "Clean code, ESLint and Prettier",
+          ],
+          days: [
+            D(
+              "Vite project setup",
+              "vite tutorial vanilla javascript project setup",
+              "Traversy Media, Fireship",
+              [["Vite guide", "https://vite.dev/guide/"]],
+              "Scaffold a vanilla Vite project, import an npm package, and build for production with npm run build.",
+            ),
+            D(
+              "Debugging with Chrome DevTools",
+              "chrome devtools javascript debugging tutorial breakpoints",
+              "Traversy Media, Google Chrome Developers",
+              [
+                ["W3Schools: Debugging", W3("js_debugging.asp")],
+                [
+                  "javascript.info: Debugging in the browser",
+                  JI("debugging-chrome"),
+                ],
+                [
+                  "Chrome DevTools docs",
+                  "https://developer.chrome.com/docs/devtools",
+                ],
+              ],
+              "Debug a broken script using breakpoints, watch expressions and the call stack. Do not use console.log.",
+            ),
+            D(
+              "Unit testing with Vitest",
+              "vitest tutorial unit testing javascript",
+              "Web Dev Simplified, Fireship",
+              [
+                ["Vitest guide", "https://vitest.dev/guide/"],
+                ["javascript.info: Automated testing", JI("testing-mocha")],
+              ],
+              "Install Vitest and write 5 tests for your Week 4 report functions.",
+            ),
+            D(
+              "Testing async code and mocks",
+              "vitest mock fetch async testing",
+              "Web Dev Simplified, Net Ninja",
+              [
+                ["Vitest: Mocking", "https://vitest.dev/guide/mocking.html"],
+                ["Vitest guide", "https://vitest.dev/guide/"],
+              ],
+              "Test an async function and mock fetch so the test never hits the network.",
+            ),
+            D(
+              "Clean code, ESLint and Prettier",
+              "eslint prettier setup clean code javascript",
+              "Web Dev Simplified, Traversy Media",
+              [
+                [
+                  "ESLint: Getting started",
+                  "https://eslint.org/docs/latest/use/getting-started",
+                ],
+                ["Prettier docs", "https://prettier.io/docs/en/index.html"],
+                ["W3Schools: Best practices", W3("js_best_practices.asp")],
+              ],
+              "Add ESLint and Prettier to your project, fix every warning, and rename two unclear functions.",
+            ),
+          ],
+          proj: {
+            name: "Refactor and Ship",
+            desc: "Upgrade an earlier project to a professional setup.",
+            reqs: [
+              "Project moved into a Vite setup",
+              "At least 10 unit tests passing",
+              "ESLint and Prettier configured with zero warnings",
+              "Deployed to Netlify, Vercel or GitHub Pages",
+              "README documents how to run and test it",
+            ],
+            stretch: "Add a GitHub Action that runs tests on every push.",
+          },
+          quiz: [
+            {
+              q: "What makes a good unit test?",
+              o: [
+                "It depends on the network",
+                "It tests a small piece of logic in isolation and runs fast",
+                "It tests the whole app at once",
+                "It needs manual steps",
+              ],
+              a: 1,
+              e: "Unit tests are small, isolated and quick, so you can run them constantly.",
+            },
+            {
+              q: "Which DevTools feature pauses your code on a chosen line?",
+              o: ["Lighthouse", "Breakpoint", "Network throttling", "Coverage"],
+              a: 1,
+              e: "A breakpoint pauses execution so you can inspect variables and the call stack.",
+            },
+          ],
+        },
+        {
+          n: 11,
+          title: "Node.js and Express basics",
+          goal: "Run JavaScript outside the browser and build a small REST API.",
+          topics: [
+            "Node runtime and modules",
+            "File system and CLI scripts",
+            "Express server",
+            "REST routes, middleware, status codes",
+            "Connecting a frontend, CORS, env vars",
+          ],
+          days: [
+            D(
+              "Node runtime and modules",
+              "nodejs crash course for beginners",
+              "Traversy Media, freeCodeCamp",
+              [
+                [
+                  "Node.js: Introduction",
+                  "https://nodejs.org/en/learn/getting-started/introduction-to-nodejs",
+                ],
+                [
+                  "W3Schools: Node.js",
+                  "https://www.w3schools.com/nodejs/default.asp",
+                ],
+              ],
+              "Run a script with node, import a local module, and use ESM (import) in a Node project.",
+            ),
+            D(
+              "File system and CLI scripts",
+              "nodejs fs readFile writeFile process.argv",
+              "Traversy Media, Web Dev Simplified",
+              [
+                [
+                  "Node.js: Reading files",
+                  "https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs",
+                ],
+              ],
+              "Write a CLI that reads a JSON file, adds an item from process.argv and saves it back.",
+            ),
+            D(
+              "Building a server with Express",
+              "express js tutorial hello world",
+              "Traversy Media, Net Ninja",
+              [
+                [
+                  "Express: Hello world",
+                  "https://expressjs.com/en/starter/hello-world.html",
+                ],
+              ],
+              "Start an Express server with 3 routes and test them in the browser and with fetch.",
+            ),
+            D(
+              "REST routes, middleware and status codes",
+              "express rest api crud tutorial middleware",
+              "Web Dev Simplified, freeCodeCamp",
+              [
+                [
+                  "Express: Routing",
+                  "https://expressjs.com/en/guide/routing.html",
+                ],
+                ["MDN: HTTP status codes", MDN("Web/HTTP/Status")],
+              ],
+              "Build GET, POST, PUT, DELETE for a resource. Add logging middleware and return correct status codes.",
+            ),
+            D(
+              "Connecting a frontend, CORS and env vars",
+              "express cors dotenv connect frontend fetch",
+              "Traversy Media, Web Dev Simplified",
+              [
+                ["MDN: CORS", MDN("Web/HTTP/CORS")],
+                [
+                  "Express: Using middleware",
+                  "https://expressjs.com/en/guide/using-middleware.html",
+                ],
+              ],
+              "Call your API from a Vite frontend. Fix the CORS error properly and move the port to a .env file.",
+            ),
+          ],
+          proj: {
+            name: "Notes API and App",
+            desc: "A REST API with a small frontend that uses it.",
+            reqs: [
+              "CRUD endpoints for notes",
+              "Data saved to a JSON file",
+              "Validation with correct 400 and 404 responses",
+              "Frontend lists, creates, edits and deletes notes",
+              "Instructions to run both parts in the README",
+            ],
+            stretch: "Add search and pagination query parameters to the API.",
+          },
+          quiz: [
+            {
+              q: "What is Express middleware?",
+              o: [
+                "A database driver",
+                "A function with access to req, res and next",
+                "A browser plugin",
+                "A type of route file",
+              ],
+              a: 1,
+              e: "Middleware runs between the request and the response. It can modify them or pass control on with next().",
+            },
+            {
+              q: "Which status code means a resource was created?",
+              o: ["200", "201", "204", "301"],
+              a: 1,
+              e: "201 Created is the right answer for a successful POST that creates something.",
+            },
+          ],
+        },
+        {
+          n: 12,
+          title: "Regex and TypeScript intro",
+          goal: "Match text with regular expressions and add types to your code.",
+          topics: [
+            "Regex fundamentals",
+            "Regex in practice",
+            "TypeScript types and interfaces",
+            "Functions, generics and narrowing",
+            "Moving JavaScript to TypeScript",
+          ],
+          days: [
+            D(
+              "Regex fundamentals",
+              "regular expressions javascript tutorial beginners",
+              "Traversy Media, Web Dev Simplified",
+              [
+                ["W3Schools: RegExp", W3("js_regexp.asp")],
+                [
+                  "javascript.info: Regular expressions",
+                  JI("regular-expressions"),
+                ],
+                ["regex101", "https://regex101.com/"],
+              ],
+              "In regex101, write patterns for digits, words, emails and phone numbers. Understand classes, quantifiers and anchors.",
+            ),
+            D(
+              "Regex in practice",
+              "javascript regex match replace test groups",
+              "Web Dev Simplified, freeCodeCamp",
+              [["javascript.info: Regexp methods", JI("regexp-methods")]],
+              "Use test, match, matchAll and replace with capture groups to reformat dates and clean text.",
+            ),
+            D(
+              "TypeScript basics",
+              "typescript tutorial for beginners types interfaces",
+              "Fireship, freeCodeCamp",
+              [
+                [
+                  "TypeScript Handbook",
+                  "https://www.typescriptlang.org/docs/handbook/intro.html",
+                ],
+                [
+                  "W3Schools: TypeScript",
+                  "https://www.w3schools.com/typescript/index.php",
+                ],
+              ],
+              "Add types to 5 functions. Create an interface for a User and a union type for a status.",
+            ),
+            D(
+              "Functions, generics and narrowing",
+              "typescript generics type narrowing explained",
+              "Web Dev Simplified, Fireship",
+              [
+                [
+                  "TypeScript Handbook: Everyday types",
+                  "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html",
+                ],
+              ],
+              "Write a generic first<T>(arr: T[]): T | undefined and a function that narrows string | number.",
+            ),
+            D(
+              "Migrating a module to TypeScript",
+              "vite typescript setup migrate javascript to typescript",
+              "Fireship, Traversy Media",
+              [
+                ["Vite guide", "https://vite.dev/guide/"],
+                [
+                  "TypeScript Handbook",
+                  "https://www.typescriptlang.org/docs/handbook/intro.html",
+                ],
+              ],
+              "Convert one module from an earlier project to .ts, set up tsconfig and fix every type error.",
+            ),
+          ],
+          proj: {
+            name: "Type-safe Validator Library",
+            desc: "A tiny validation library in TypeScript, tested with Vitest.",
+            reqs: [
+              "Validators for email, phone and password using regex",
+              "Result type: { valid: boolean; errors: string[] }",
+              "Written in TypeScript with strict mode on",
+              "At least 10 Vitest tests",
+              "Used in a simple signup form",
+            ],
+            stretch: "Make validators composable with generics.",
+          },
+          quiz: [
+            {
+              q: "What does /\\d+/g match?",
+              o: [
+                "One digit only",
+                "Every run of one or more digits",
+                "Any letter",
+                'The text "d+"',
+              ],
+              a: 1,
+              e: "\\d means a digit, + means one or more, and g finds all matches rather than just the first.",
+            },
+            {
+              q: "When does TypeScript check types?",
+              o: [
+                "At runtime in the browser",
+                "At compile time, and types are erased in the output",
+                "Only in production",
+                "Never, it is for documentation",
+              ],
+              a: 1,
+              e: "Types exist only while compiling. The emitted JavaScript contains no types.",
+            },
+          ],
+        },
+        {
+          n: 13,
+          title: "Capstone I: plan and build",
+          goal: "Turn an idea into a working core product.",
+          topics: [
+            "Scoping an MVP",
+            "Project setup and structure",
+            "Core feature build I",
+            "Core feature build II",
+            "Core feature build III and commit discipline",
+          ],
+          days: [
+            D(
+              "Choose an idea and write the spec",
+              "how to plan a web app project mvp user stories",
+              "Traversy Media, Web Dev Simplified",
+              [
+                [
+                  "Frontend Mentor: Project ideas",
+                  "https://www.frontendmentor.io/",
+                ],
+                [
+                  "Public APIs list",
+                  "https://github.com/public-apis/public-apis",
+                ],
+              ],
+              "Pick one idea. Write 5 user stories, a feature list split into must-have and later, and a rough wireframe.",
+            ),
+            D(
+              "Project setup and architecture",
+              "javascript project structure vite folder structure state management vanilla",
+              "Web Dev Simplified, Fireship",
+              [
+                ["javascript.info: Modules", JI("modules-intro")],
+                ["Vite guide", "https://vite.dev/guide/"],
+              ],
+              "Scaffold the repo, create folders and modules, design your state object, and make the first commit.",
+            ),
+            D(
+              "Build core feature I",
+              "build a javascript app from scratch project walkthrough",
+              "freeCodeCamp, Traversy Media",
+              [["MDN: JavaScript guide", MDN("Web/JavaScript/Guide")]],
+              "Ship the first must-have feature end to end. Commit when it works.",
+            ),
+            D(
+              "Build core feature II",
+              "javascript app fetch api localstorage project build",
+              "Traversy Media, Net Ninja",
+              [["MDN: Fetch API", MDN("Web/API/Fetch_API")]],
+              "Add data handling (API or storage) and loading and error states. Commit when it works.",
+            ),
+            D(
+              "Build core feature III",
+              "javascript project code review refactor tips",
+              "Web Dev Simplified, Fireship",
+              [["javascript.info: Code quality", JI("debugging-chrome")]],
+              "Finish the last must-have feature. Clean up names and open a pull request for review.",
+            ),
+          ],
+          proj: {
+            name: "Capstone: Core Product",
+            desc: "Your own app. Suggestions: habit tracker, recipe finder, quiz platform, budgeting app, job application tracker.",
+            reqs: [
+              "Written spec with user stories",
+              "All must-have features working",
+              "Data persists (storage or your own API)",
+              "At least 5 unit tests",
+              "Small, clear commits on a GitHub repo",
+            ],
+            stretch: "Add authentication or a second data source.",
+          },
+          quiz: [
+            {
+              q: "What is the best first step on a new project?",
+              o: [
+                "Start coding every feature",
+                "Define a small MVP scope and user stories",
+                "Choose a CSS framework",
+                "Deploy it",
+              ],
+              a: 1,
+              e: "A clear small scope stops you from building forever. Decide what must exist for version one.",
+            },
+            {
+              q: "Which commit habit is best?",
+              o: [
+                "One huge commit at the end",
+                "Small focused commits with clear messages",
+                "Commit only on Fridays",
+                "Commit only passing and failing tests together",
+              ],
+              a: 1,
+              e: "Small commits are easy to review, easy to undo and tell the story of your work.",
+            },
+          ],
+        },
+        {
+          n: 14,
+          title: "Capstone II: polish, deploy and review",
+          goal: "Finish, ship and prove you are ready for React.",
+          topics: [
+            "Testing and bug fixing",
+            "Responsive design and accessibility",
+            "Performance and refactor",
+            "Deploy, README and demo",
+            "Final review and next steps",
+          ],
+          days: [
+            D(
+              "Testing and bug fixing",
+              "javascript testing debugging real project vitest",
+              "Web Dev Simplified, Traversy Media",
+              [
+                ["Vitest guide", "https://vitest.dev/guide/"],
+                ["W3Schools: Debugging", W3("js_debugging.asp")],
+              ],
+              "Write a bug list, fix the 5 most important, and add a test for each.",
+            ),
+            D(
+              "Responsive design and accessibility",
+              "responsive web design accessibility checklist",
+              "Kevin Powell, Fireship",
+              [
+                [
+                  "web.dev: Learn Accessibility",
+                  "https://web.dev/learn/accessibility",
+                ],
+                [
+                  "web.dev: Learn Responsive Design",
+                  "https://web.dev/learn/design",
+                ],
+              ],
+              "Test at phone, tablet and desktop widths. Navigate the whole app with only a keyboard.",
+            ),
+            D(
+              "Performance and refactor",
+              "javascript performance optimization refactor",
+              "Fireship, Web Dev Simplified",
+              [
+                ["W3Schools: Performance", W3("js_performance.asp")],
+                [
+                  "Chrome DevTools docs",
+                  "https://developer.chrome.com/docs/devtools",
+                ],
+              ],
+              "Run Lighthouse, fix the top issues, and remove dead code and duplicated logic.",
+            ),
+            D(
+              "Deploy, README and demo",
+              "deploy vite app netlify vercel github pages readme",
+              "Traversy Media, freeCodeCamp",
+              [
+                [
+                  "Vite: Deploying",
+                  "https://vite.dev/guide/static-deploy.html",
+                ],
+                [
+                  "GitHub docs: About READMEs",
+                  "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+                ],
+              ],
+              "Deploy live, write a README with screenshots and a features list, and record a 2 minute demo.",
+            ),
+            D(
+              "Final review and next steps",
+              "react js crash course for beginners",
+              "Traversy Media, freeCodeCamp",
+              [
+                ["React docs: Learn", "https://react.dev/learn"],
+                [
+                  "The Odin Project",
+                  "https://www.theodinproject.com/paths/full-stack-javascript",
+                ],
+              ],
+              "Retake any quiz under 80%. Explain closures and the event loop aloud without notes. Skim the React docs Quick Start.",
+            ),
+          ],
+          proj: {
+            name: "Capstone: Final Release",
+            desc: "Ship the finished capstone and present it.",
+            reqs: [
+              "Deployed with a public link",
+              "README with screenshots, features and setup steps",
+              "Responsive and keyboard accessible",
+              "Lighthouse performance and accessibility above 85",
+              "Written reflection: what I learned and what I will learn next",
+            ],
+            stretch: "Share it with a friend and collect feedback.",
+          },
+          quiz: [
+            {
+              q: "What does a responsive layout mean?",
+              o: [
+                "It loads instantly",
+                "It adapts to different screen sizes",
+                "It uses animations",
+                "It works offline",
+              ],
+              a: 1,
+              e: "Responsive layouts adjust to phones, tablets and desktops using flexible units, grid and media queries.",
+            },
+            {
+              q: "You are ready to start React when you can...",
+              o: [
+                "Memorize every array method",
+                "Build a small app without a tutorial and explain closures and the event loop",
+                "Finish 10 videos",
+                "Know every CSS property",
+              ],
+              a: 1,
+              e: "Readiness is about independent building and understanding core ideas, not about watching more content.",
+            },
+          ],
+        },
+      ];
+      const RESOURCES = [
+        {
+          t: "javascript.info",
+          u: "https://javascript.info/",
+          c: "Core course",
+          d: "The Modern JavaScript Tutorial. Your main deep-dive text, with exercises.",
+        },
+        {
+          t: "W3Schools JavaScript",
+          u: "https://www.w3schools.com/js/",
+          c: "Reference",
+          d: "Short explanations with a Try it editor. Great for quick checks.",
+        },
+        {
+          t: "MDN JavaScript",
+          u: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+          c: "Reference",
+          d: "The authoritative reference for every feature of the language.",
+        },
+        {
+          t: "The Odin Project",
+          u: "https://www.theodinproject.com/paths/full-stack-javascript",
+          c: "Core course",
+          d: "A free project-based path from JavaScript to full stack.",
+        },
+        {
+          t: "freeCodeCamp Learn",
+          u: "https://www.freecodecamp.org/learn",
+          c: "Core course",
+          d: "Free interactive lessons and certifications.",
+        },
+        {
+          t: "You Don't Know JS Yet",
+          u: "https://github.com/getify/You-Dont-Know-JS",
+          c: "Books",
+          d: "Free deep books on scope, closures, this and prototypes.",
+        },
+        {
+          t: "Eloquent JavaScript",
+          u: "https://eloquentjavascript.net/",
+          c: "Books",
+          d: "A free book with exercises, strong on fundamentals and data structures.",
+        },
+        {
+          t: "JavaScript30",
+          u: "https://javascript30.com/",
+          c: "Practice",
+          d: "30 vanilla JS projects in 30 days by Wes Bos, free video course.",
+        },
+        {
+          t: "Exercism JavaScript Track",
+          u: "https://exercism.org/tracks/javascript",
+          c: "Practice",
+          d: "Free exercises with optional mentor feedback.",
+        },
+        {
+          t: "Codewars",
+          u: "https://www.codewars.com/",
+          c: "Practice",
+          d: "Small coding challenges (kata) to sharpen problem solving.",
+        },
+        {
+          t: "Frontend Mentor",
+          u: "https://www.frontendmentor.io/",
+          c: "Practice",
+          d: "Real-world UI challenges with designs. Good for capstone ideas.",
+        },
+        {
+          t: "Public APIs list",
+          u: "https://github.com/public-apis/public-apis",
+          c: "Practice",
+          d: "Hundreds of free APIs to practice fetch with.",
+        },
+        {
+          t: "freeCodeCamp on YouTube",
+          u: "https://www.youtube.com/@freecodecamp",
+          c: "Video",
+          d: "Full-length free courses on JavaScript, Node, Git and more.",
+        },
+        {
+          t: "Traversy Media",
+          u: "https://www.youtube.com/@TraversyMedia",
+          c: "Video",
+          d: "Clear crash courses on practical web development.",
+        },
+        {
+          t: "Web Dev Simplified",
+          u: "https://www.youtube.com/@WebDevSimplified",
+          c: "Video",
+          d: "Short, precise explanations of JavaScript concepts.",
+        },
+        {
+          t: "Fireship",
+          u: "https://www.youtube.com/@Fireship",
+          c: "Video",
+          d: "Fast overviews of concepts and tools. Good for a first pass.",
+        },
+        {
+          t: "Programming with Mosh",
+          u: "https://www.youtube.com/@programmingwithmosh",
+          c: "Video",
+          d: "Structured, beginner-friendly tutorials.",
+        },
+        {
+          t: "Namaste JavaScript",
+          u: "https://www.youtube.com/@akshaymarch7",
+          c: "Video",
+          d: "In-depth series on how JavaScript works internally.",
+        },
+        {
+          t: "Net Ninja",
+          u: "https://www.youtube.com/@NetNinja",
+          c: "Video",
+          d: "Playlists that go step by step through each topic.",
+        },
+        {
+          t: "Loupe event loop visualizer",
+          u: "http://latentflip.com/loupe/",
+          c: "Tools",
+          d: "Watch the call stack, Web APIs and callback queue run.",
+        },
+        {
+          t: "regex101",
+          u: "https://regex101.com/",
+          c: "Tools",
+          d: "Build and test regular expressions with live explanations.",
+        },
+        {
+          t: "Chrome DevTools docs",
+          u: "https://developer.chrome.com/docs/devtools",
+          c: "Tools",
+          d: "Debugging, performance and network tools in the browser.",
+        },
+        {
+          t: "Pro Git book",
+          u: "https://git-scm.com/book/en/v2",
+          c: "Tools",
+          d: "The free official book on Git.",
+        },
+        {
+          t: "Vite",
+          u: "https://vite.dev/guide/",
+          c: "Tools",
+          d: "The fast dev server and build tool used in modern projects.",
+        },
+        {
+          t: "Vitest",
+          u: "https://vitest.dev/guide/",
+          c: "Tools",
+          d: "A fast testing framework that works with Vite.",
+        },
+        {
+          t: "Node.js Learn",
+          u: "https://nodejs.org/en/learn",
+          c: "Tools",
+          d: "Official guides for running JavaScript outside the browser.",
+        },
+        {
+          t: "Express",
+          u: "https://expressjs.com/",
+          c: "Tools",
+          d: "The most common Node framework for building APIs.",
+        },
+        {
+          t: "TypeScript Handbook",
+          u: "https://www.typescriptlang.org/docs/handbook/intro.html",
+          c: "Tools",
+          d: "The official guide to TypeScript.",
+        },
+        {
+          t: "React docs",
+          u: "https://react.dev/learn",
+          c: "Next stage",
+          d: "Your next step after this course.",
+        },
+      ];
+      /* ---------- helpers ---------- */
+      const $ = (s) => document.querySelector(s);
+      const esc = (s) =>
+        String(s == null ? "" : s).replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      const fmt = (s) => esc(s).replace(/`([^`]+)`/g, "<code>$1</code>");
+      const z2 = (n) => String(n).padStart(2, "0");
+      const ymd = (d) =>
+        d.getFullYear() + "-" + z2(d.getMonth() + 1) + "-" + z2(d.getDate());
+      const parseD = (s) => {
+        const [y, m, d] = s.split("-").map(Number);
+        return new Date(y, m - 1, d);
+      };
+      const todayStr = () => ymd(new Date());
+      const diffDays = (a, b) => Math.round((parseD(b) - parseD(a)) / 864e5);
+      const addDays = (s, n) => {
+        const d = parseD(s);
+        d.setDate(d.getDate() + n);
+        return ymd(d);
+      };
+      const fmtDate = (s, o) =>
+        parseD(s).toLocaleDateString(
+          undefined,
+          o || { weekday: "short", day: "numeric", month: "short" },
+        );
+      const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+      const NW = WEEKS.length,
+        NDAYS = NW * 7;
+
+      /* ---------- state ---------- */
+      const KEY = "jsAscent.v1";
+      const defState = () => ({
+        name: "",
+        start: todayStr(),
+        goal: 10,
+        theme: "auto",
+        done: {},
+        days: {},
+        proj: {},
+        quiz: {},
+        log: [],
+        notes: {},
+        reflect: {},
+        timer: null,
+        seenBadges: [],
+      });
+      let S = defState();
+      function load() {
+        try {
+          const r = localStorage.getItem(KEY);
+          if (r) {
+            S = Object.assign(defState(), JSON.parse(r));
+          }
+        } catch (e) {}
+      }
+      function save() {
+        try {
+          localStorage.setItem(KEY, JSON.stringify(S));
+        } catch (e) {}
+      }
+
+      /* ---------- progress ---------- */
+      function keysFor(w) {
+        const k = [];
+        for (let d = 1; d <= 5; d++)
+          ["v", "r", "p"].forEach((t) => k.push(`${w.n}.${d}.${t}`));
+        w.proj.reqs.forEach((_, i) => k.push(`${w.n}.pr.${i}`));
+        k.push(`${w.n}.q`, `${w.n}.rev`);
+        return k;
+      }
+      const isDone = (k) =>
+        k.endsWith(".q") ? !!S.quiz[k.split(".")[0]] : !!S.done[k];
+      function weekStat(w) {
+        const ks = keysFor(w);
+        const d = ks.filter(isDone).length;
+        return {
+          done: d,
+          total: ks.length,
+          pct: Math.round((d / ks.length) * 100),
+        };
+      }
+      function overall() {
+        let d = 0,
+          t = 0;
+        WEEKS.forEach((w) => {
+          const s = weekStat(w);
+          d += s.done;
+          t += s.total;
+        });
+        return { done: d, total: t, pct: t ? Math.round((d / t) * 100) : 0 };
+      }
+      function streak() {
+        let d = todayStr();
+        if (!S.days[d]) d = addDays(d, -1);
+        let n = 0;
+        while (S.days[d]) {
+          n++;
+          d = addDays(d, -1);
+        }
+        return n;
+      }
+      const totalMin = () => S.log.reduce((a, l) => a + l.min, 0);
+      const fmtMin = (m) =>
+        m >= 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m}m`;
+      function position() {
+        const idx = diffDays(S.start, todayStr());
+        return {
+          idx,
+          week: clamp(Math.floor(idx / 7) + 1, 1, NW),
+          day: idx >= NDAYS ? 7 : clamp((idx % 7) + 1, 1, 7),
+          before: idx < 0,
+          after: idx >= NDAYS,
+        };
+      }
+      const dateOf = (n, d) => addDays(S.start, (n - 1) * 7 + d - 1);
+      function pace() {
+        const p = position();
+        if (p.before) return { txt: "Not started", cls: "muted" };
+        const exp = clamp((p.idx + 1) / NDAYS, 0, 1) * 100;
+        const diff = overall().pct - exp;
+        if (diff >= -3)
+          return {
+            txt: diff >= 3 ? "Ahead of schedule" : "On track",
+            cls: "ok",
+          };
+        return {
+          txt: `Behind by about ${Math.max(1, Math.round((-diff / 100) * NDAYS))} days`,
+          cls: "warn",
+        };
+      }
+      function weekMinutes(n) {
+        const a = dateOf(n, 1),
+          b = dateOf(n, 7);
+        return S.log
+          .filter((l) => l.date >= a && l.date <= b)
+          .reduce((s, l) => s + l.min, 0);
+      }
+      function badges() {
+        const o = overall();
+        const ws = (n) => weekStat(WEEKS[n - 1]).pct === 100;
+        const pd = Object.values(S.proj).filter(
+          (p) => p.status === "done",
+        ).length;
+        return [
+          {
+            id: "first",
+            n: "First step",
+            d: "Complete your first task",
+            got: Object.values(S.done).some(Boolean),
+          },
+          {
+            id: "s3",
+            n: "3-day streak",
+            d: "Study 3 days in a row",
+            got: streak() >= 3,
+          },
+          {
+            id: "s7",
+            n: "7-day streak",
+            d: "Study 7 days in a row",
+            got: streak() >= 7,
+          },
+          {
+            id: "w1",
+            n: "Closure keeper",
+            d: "Finish all of Week 1",
+            got: ws(1),
+          },
+          {
+            id: "perfect",
+            n: "Perfect quiz",
+            d: "Score 100% on any quiz",
+            got: Object.values(S.quiz).some((q) => q.score === q.total),
+          },
+          {
+            id: "async",
+            n: "Async survivor",
+            d: "Finish Weeks 6 and 7",
+            got: ws(6) && ws(7),
+          },
+          {
+            id: "h10",
+            n: "10 hours",
+            d: "Log 10 hours of study",
+            got: totalMin() >= 600,
+          },
+          {
+            id: "h50",
+            n: "50 hours",
+            d: "Log 50 hours of study",
+            got: totalMin() >= 3000,
+          },
+          {
+            id: "b5",
+            n: "Builder",
+            d: "Mark 5 projects submitted",
+            got: pd >= 5,
+          },
+          {
+            id: "ship",
+            n: "Shipped",
+            d: "Submit your capstone",
+            got: (S.proj[14] || {}).status === "done",
+          },
+          {
+            id: "fin",
+            n: "Finisher",
+            d: "Reach 100% overall",
+            got: o.pct === 100,
+          },
+        ];
+      }
+      function checkBadges() {
+        const b = badges();
+        const fresh = b.filter((x) => x.got && !S.seenBadges.includes(x.id));
+        if (fresh.length) {
+          S.seenBadges.push(...fresh.map((x) => x.id));
+          save();
+          toast("Badge earned: " + fresh.map((x) => x.n).join(", "));
+        }
+      }
+      function bump(date, by) {
+        date = date || todayStr();
+        S.days[date] = Math.max(0, (S.days[date] || 0) + by);
+        if (!S.days[date]) delete S.days[date];
+      }
+
+      /* ---------- routing ---------- */
+      let route = { name: "dash", arg: null };
+      function parseRoute() {
+        const h = location.hash.replace(/^#\/?/, "").split("/");
+        route = {
+          name: h[0] || "dash",
+          arg: h[1] ? Number(h[1]) || h[1] : null,
+        };
+      }
+      const go = (name, arg) => {
+        location.hash = "#/" + name + (arg != null ? "/" + arg : "");
+      };
+      const NAV = [
+        ["dash", "Today"],
+        ["roadmap", "Roadmap"],
+        ["week", "Weeks"],
+        ["projects", "Projects"],
+        ["quiz", "Quizzes"],
+        ["resources", "Resources"],
+        ["journal", "Study log"],
+        ["settings", "Settings"],
+      ];
+
+      /* ---------- ui bits ---------- */
+      function toast(m) {
+        const t = $("#toast");
+        t.textContent = m;
+        t.classList.add("show");
+        clearTimeout(toast.t);
+        toast.t = setTimeout(() => t.classList.remove("show"), 3200);
+      }
+      const bar = (p, cls) =>
+        `<div class="bar ${cls || ""}" role="progressbar" aria-valuenow="${p}" aria-valuemin="0" aria-valuemax="100"><i style="width:${p}%"></i></div>`;
+      function task(k, title, html, mins) {
+        const c = isDone(k);
+        return `<div class="task ${c ? "on" : ""}"><label class="chk"><input type="checkbox" data-act="toggle" data-k="${k}" ${c ? "checked" : ""} aria-label="${esc(title)}"><span class="box"></span></label><div class="tbody"><div class="tt">${esc(title)}${mins ? `<span class="mins">${mins} min</span>` : ""}</div>${html}</div></div>`;
+      }
+      const ext = (u, l) =>
+        `<a class="lnk" href="${u}" target="_blank" rel="noopener noreferrer">${esc(l)}</a>`;
+
+      function dayCard(n, di, today) {
+        const w = WEEKS[n - 1];
+        const date = dateOf(n, di);
+        let title,
+          body,
+          cls = "";
+        if (di <= 5) {
+          const d = w.days[di - 1];
+          title = d.t;
+          body =
+            task(
+              `${n}.${di}.v`,
+              "Watch",
+              `${ext(YT(d.v), "Search YouTube: " + d.v)}<div class="sub">Good channels for this: ${esc(d.ch)}</div>`,
+              30,
+            ) +
+            task(
+              `${n}.${di}.r`,
+              "Read",
+              d.r.map((x) => ext(x[1], x[0])).join(""),
+              20,
+            ) +
+            task(`${n}.${di}.p`, "Practice", `<div>${esc(d.p)}</div>`, 40);
+        } else if (di === 6) {
+          title = "Project day: " + w.proj.name;
+          body =
+            `<p class="sub" style="margin:0 0 8px">${esc(w.proj.desc)}</p>` +
+            w.proj.reqs.map((r, i) => task(`${n}.pr.${i}`, r, "")).join("") +
+            `<p class="sub">Stretch goal: ${esc(w.proj.stretch)}</p><a class="btn ghost" href="#/projects/${n}">Open project page</a>`;
+        } else {
+          title = "Review and quiz";
+          const q = S.quiz[n];
+          body =
+            task(
+              `${n}.rev`,
+              "Review",
+              `<div>Re-read your notes, redo anything you got wrong, and write 3 sentences on what finally clicked.</div>`,
+              45,
+            ) +
+            `<div class="quizrow"><div>${q ? `<b>Quiz score: ${q.score}/${q.total}</b>` : `<b>Week ${n} quiz</b>`}<div class="sub">${q ? "You can retake it any time." : "Short check on this week's concepts."}</div></div><a class="btn" href="#/quiz/${n}">${q ? "Review quiz" : "Take quiz"}</a></div>
+   <label class="fl">Weekly reflection<textarea data-act="reflect" data-n="${n}" rows="3" placeholder="What was hardest this week? What will you do differently next week?">${esc(S.reflect[n] || "")}</textarea></label>`;
+        }
+        const keys =
+          di <= 5
+            ? ["v", "r", "p"].map((t) => `${n}.${di}.${t}`)
+            : di === 6
+              ? w.proj.reqs.map((_, i) => `${n}.pr.${i}`)
+              : [`${n}.rev`, `${n}.q`];
+        const dn = keys.filter(isDone).length;
+        const all = dn === keys.length;
+        return `<section class="day ${today ? "today" : ""} ${all ? "full" : ""}" id="d${n}-${di}"><header><div><span class="dno">Day ${di}</span><span class="ddate">${fmtDate(date)}</span>${today ? '<span class="tag now">Today</span>' : ""}${all ? '<span class="tag ok">Done</span>' : ""}</div><div class="dcount">${dn}/${keys.length}</div></header><h3>${esc(title)}</h3>${body}</section>`;
+      }
+
+      /* ---------- views ---------- */
+      function vDash() {
+        const p = position(),
+          o = overall(),
+          pc = pace(),
+          w = WEEKS[p.week - 1],
+          ws = weekStat(w);
+        const hello = S.name ? `Welcome back, ${esc(S.name)}` : "Welcome back";
+        let hero;
+        if (p.before) {
+          hero = `<div class="card hero"><h2>Your course starts ${fmtDate(S.start, { weekday: "long", day: "numeric", month: "long" })}</h2><p class="sub">Want to begin today instead?</p><button class="btn" data-act="startToday">Start today</button></div>`;
+        } else {
+          hero = `<div class="today-head"><div><div class="sub">Week ${p.week} of ${NW}, Day ${p.day}</div><h2>${esc(w.title)}</h2></div><a class="btn ghost" href="#/week/${p.week}">Open week</a></div>${dayCard(p.week, p.day, true)}${p.after ? '<p class="sub">Your 14 weeks are over. Keep going at your own pace.</p>' : ""}`;
+        }
+        const ring = `<div class="ring" style="--p:${o.pct}"><span>${o.pct}%</span></div>`;
+        const mini = WEEKS.map((x) => {
+          const s = weekStat(x);
+          return `<a href="#/week/${x.n}" class="mb ${x.n === p.week && !p.before ? "cur" : ""}" title="Week ${x.n}: ${esc(x.title)} (${s.pct}%)"><i style="height:${Math.max(4, s.pct)}%"></i><span>${x.n}</span></a>`;
+        }).join("");
+        const bg = badges();
+        const cert =
+          o.pct === 100
+            ? `<div class="card cert"><h3>Course complete</h3><p>${S.name ? esc(S.name) + ", you" : "You"} finished all 14 weeks of Intermediate JavaScript. Time to start React.</p></div>`
+            : "";
+        return `<h1>${hello}</h1>
+ <div class="stats">
+  <div class="card stat">${ring}<div><div class="k">Overall progress</div><div class="sub">${o.done} of ${o.total} items</div></div></div>
+  <div class="card stat"><div class="big">${streak()}</div><div><div class="k">Day streak</div><div class="sub">Any task or log counts</div></div></div>
+  <div class="card stat"><div class="big">${fmtMin(totalMin())}</div><div><div class="k">Time logged</div><div class="sub">This week: ${fmtMin(weekMinutes(p.week))} of ${S.goal}h goal</div></div></div>
+  <div class="card stat"><div class="big pace ${pc.cls}">${pc.txt}</div><div><div class="k">Pace</div><div class="sub">Week ${p.week}: ${ws.pct}% done</div></div></div>
+ </div>
+ ${cert}
+ <div class="cols"><div>${hero}</div>
+ <aside><div class="card"><h3>Weekly progress</h3><div class="minibars">${mini}</div></div>
+ <div class="card"><h3>Badges</h3><div class="badges">${bg.map((b) => `<div class="badge ${b.got ? "got" : ""}" title="${esc(b.d)}"><b>${esc(b.n)}</b><span>${esc(b.d)}</span></div>`).join("")}</div></div></aside></div>`;
+      }
+
+      function vRoadmap() {
+        const p = position();
+        return (
+          `<h1>Roadmap</h1><p class="lead">14 weeks, 4 phases. Each week has 5 lesson days, a project day and a review day. Tap a week to open it.</p>` +
+          PHASES.map((ph, pi) => {
+            const ws = WEEKS.filter(
+              (w) => w.n >= ph.weeks[0] && w.n <= ph.weeks[1],
+            );
+            const avg = Math.round(
+              ws.reduce((a, w) => a + weekStat(w).pct, 0) / ws.length,
+            );
+            return `<section class="phase"><div class="phead"><div><h2>Phase ${pi + 1}: ${esc(ph.name)}</h2><p class="sub">Weeks ${ph.weeks[0]} to ${ph.weeks[1]}. ${esc(ph.blurb)}</p></div><div class="pp">${avg}%</div></div>
+  <div class="tiles">${ws
+    .map((w) => {
+      const s = weekStat(w);
+      const cur = !p.before && p.week === w.n;
+      return `<a class="tile ${s.pct === 100 ? "full" : ""} ${cur ? "cur" : ""}" style="--p:${s.pct}%" href="#/week/${w.n}"><span class="wn">${w.n}</span><span class="wt">${esc(w.title)}</span><span class="wd">${fmtDate(dateOf(w.n, 1), { day: "numeric", month: "short" })} to ${fmtDate(dateOf(w.n, 7), { day: "numeric", month: "short" })}</span><span class="wp">${cur ? "This week, " : ""}${s.pct}%</span></a>`;
+    })
+    .join("")}</div></section>`;
+          }).join("") +
+          `<section class="card"><h3>Weekly rhythm</h3><div class="rhythm"><div><b>Days 1 to 5</b><span>Watch (30 min), read (20 min), practice (40 min). About 90 minutes a day.</span></div><div><b>Day 6</b><span>Project day. About 3 hours building the weekly project.</span></div><div><b>Day 7</b><span>Review, quiz and reflection. About 1 hour.</span></div></div></section>`
+        );
+      }
+
+      function vWeek(n) {
+        const p = position();
+        n = clamp(Number(n) || (p.before ? 1 : p.week), 1, NW);
+        const w = WEEKS[n - 1],
+          s = weekStat(w);
+        const sel = `<select data-act="weekSel" aria-label="Choose week">${WEEKS.map((x) => `<option value="${x.n}" ${x.n === n ? "selected" : ""}>Week ${x.n}: ${esc(x.title)}</option>`).join("")}</select>`;
+        let days = "";
+        for (let d = 1; d <= 7; d++)
+          days += dayCard(n, d, !p.before && p.week === n && p.day === d);
+        return `<div class="wkhead"><div><div class="sub">Week ${n} of ${NW}, ${fmtDate(dateOf(n, 1))} to ${fmtDate(dateOf(n, 7))}</div><h1>${esc(w.title)}</h1><p class="lead">${esc(w.goal)}</p></div><div class="wknav">${n > 1 ? `<a class="btn ghost" href="#/week/${n - 1}">Previous</a>` : ""}${n < NW ? `<a class="btn ghost" href="#/week/${n + 1}">Next</a>` : ""}</div></div>
+ <div class="card"><div class="rowb"><b>${s.pct}% complete</b><span class="sub">${s.done} of ${s.total} items</span>${sel}</div>${bar(s.pct)}</div>
+ <div class="card"><h3>What you will learn</h3><ul class="topics">${w.topics.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></div>
+ <div class="days">${days}</div>
+ <div class="card"><h3>Week ${n} notes</h3><label class="fl"><span class="sub">Saved automatically in this browser.</span><textarea data-act="note" data-n="${n}" rows="6" placeholder="Jot down code snippets, definitions, questions to revisit...">${esc(S.notes[n] || "")}</textarea></label></div>`;
+      }
+
+      const openProj = new Set();
+      const STAT = {
+        todo: "Not started",
+        doing: "In progress",
+        done: "Submitted",
+      };
+      function vProjects(arg) {
+        const p = position();
+        const focus = Number(arg) || (p.before ? 0 : p.week);
+        if (focus) openProj.add(focus);
+        const dn = Object.values(S.proj).filter(
+          (x) => x.status === "done",
+        ).length;
+        return (
+          `<h1>Projects</h1><p class="lead">One project every week. Tick each requirement, add your GitHub or live link, then mark it submitted. ${dn} of ${NW} submitted.</p>` +
+          WEEKS.map((w) => {
+            const pr = S.proj[w.n] || { status: "todo", link: "" };
+            const rd = w.proj.reqs.filter(
+              (_, i) => S.done[`${w.n}.pr.${i}`],
+            ).length;
+            return `<details class="card proj" data-proj="${w.n}" ${openProj.has(w.n) ? "open" : ""}><summary><span class="pwk">Week ${w.n}</span><span class="pname">${esc(w.proj.name)}</span><span class="pst st-${pr.status}">${STAT[pr.status]}</span><span class="sub">${rd}/${w.proj.reqs.length}</span></summary>
+  <p>${esc(w.proj.desc)}</p>${w.proj.reqs.map((r, i) => task(`${w.n}.pr.${i}`, r, "")).join("")}<p class="sub">Stretch goal: ${esc(w.proj.stretch)}</p>
+  <div class="pform"><label class="fl">Status<select data-act="pstatus" data-n="${w.n}">${Object.entries(
+    STAT,
+  )
+    .map(
+      ([k, v]) =>
+        `<option value="${k}" ${pr.status === k ? "selected" : ""}>${v}</option>`,
+    )
+    .join("")}</select></label>
+  <label class="fl grow">GitHub or live link<input type="url" data-act="plink" data-n="${w.n}" value="${esc(pr.link)}" placeholder="https://github.com/you/project"></label></div></details>`;
+          }).join("")
+        );
+      }
+
+      const retake = {};
+      function vQuiz(arg) {
+        const n = Number(arg);
+        if (!n) {
+          return (
+            `<h1>Quizzes</h1><p class="lead">Two questions per week to check your understanding. Retake as often as you like.</p><div class="qlist">` +
+            WEEKS.map((w) => {
+              const q = S.quiz[w.n];
+              return `<a class="card qitem" href="#/quiz/${w.n}"><span class="pwk">Week ${w.n}</span><span class="pname">${esc(w.title)}</span><span class="pst ${q ? (q.score === q.total ? "st-done" : "st-doing") : "st-todo"}">${q ? q.score + "/" + q.total : "Not taken"}</span></a>`;
+            }).join("") +
+            `</div>`
+          );
+        }
+        const w = WEEKS[clamp(n, 1, NW) - 1],
+          res = S.quiz[w.n];
+        const head = `<a class="back" href="#/quiz">All quizzes</a><h1>Week ${w.n} quiz</h1><p class="lead">${esc(w.title)}</p>`;
+        if (res && !retake[w.n]) {
+          return (
+            head +
+            `<div class="card"><h2>Score: ${res.score} of ${res.total}</h2>${bar(Math.round((res.score / res.total) * 100), res.score === res.total ? "" : "warn")}</div>` +
+            w.quiz
+              .map((q, i) => {
+                const ok = res.answers[i] === q.a;
+                return `<div class="card qq"><div class="qt">${i + 1}. ${fmt(q.q)}</div>${q.o.map((o, j) => `<div class="opt ${j === q.a ? "right" : ""} ${j === res.answers[i] && !ok ? "wrong" : ""}">${esc(o)}${j === q.a ? "<b> Correct</b>" : ""}${j === res.answers[i] && !ok ? "<b> Your answer</b>" : ""}</div>`).join("")}<p class="exp"><b>${ok ? "Right." : "Not quite."}</b> ${esc(q.e)}</p></div>`;
+              })
+              .join("") +
+            `<button class="btn" data-act="retake" data-n="${w.n}">Retake quiz</button>`
+          );
+        }
+        return (
+          head +
+          w.quiz
+            .map(
+              (q, i) =>
+                `<fieldset class="card qq"><legend class="qt">${i + 1}. ${fmt(q.q)}</legend>${q.o.map((o, j) => `<label class="opt pick"><input type="radio" name="q${i}" value="${j}"><span>${esc(o)}</span></label>`).join("")}</fieldset>`,
+            )
+            .join("") +
+          `<button class="btn" data-act="submitQuiz" data-n="${w.n}">Submit answers</button>`
+        );
+      }
+
+      let resCat = "All",
+        resQ = "";
+      function resList() {
+        const q = resQ.toLowerCase();
+        const l = RESOURCES.filter(
+          (r) =>
+            (resCat === "All" || r.c === resCat) &&
+            (!q || (r.t + " " + r.d + " " + r.c).toLowerCase().includes(q)),
+        );
+        return l.length
+          ? l
+              .map(
+                (r) =>
+                  `<a class="card res" href="${r.u}" target="_blank" rel="noopener noreferrer"><span class="rc">${esc(r.c)}</span><b>${esc(r.t)}</b><span class="sub">${esc(r.d)}</span></a>`,
+              )
+              .join("")
+          : '<p class="empty">No resources match. Try a different word or category.</p>';
+      }
+      function vResources() {
+        const cats = ["All", ...new Set(RESOURCES.map((r) => r.c))];
+        return `<h1>Resources</h1><p class="lead">Trusted free material to use alongside the daily plan. Every item is free to use.</p>
+ <div class="filters"><input type="search" id="rsearch" data-act="rsearch" placeholder="Search resources" value="${esc(resQ)}" aria-label="Search resources"><div class="chips">${cats.map((c) => `<button class="chip ${c === resCat ? "on" : ""}" data-act="rcat" data-c="${esc(c)}">${esc(c)}</button>`).join("")}</div></div><div class="resgrid" id="reslist">${resList()}</div>`;
+      }
+
+      function tmrText() {
+        if (!S.timer) return "00:00";
+        const s = Math.floor((Date.now() - S.timer) / 1000);
+        return z2(Math.floor(s / 60)) + ":" + z2(s % 60);
+      }
+      function vJournal() {
+        const p = position();
+        const days = [];
+        for (let i = 13; i >= 0; i--) {
+          const d = addDays(todayStr(), -i);
+          days.push({
+            d,
+            m: S.log.filter((l) => l.date === d).reduce((a, l) => a + l.min, 0),
+          });
+        }
+        const mx = Math.max(60, ...days.map((x) => x.m));
+        const logs = S.log
+          .map((l, i) => ({ ...l, i }))
+          .sort((a, b) => b.date.localeCompare(a.date) || b.i - a.i);
+        return `<h1>Study log</h1><p class="lead">Track how long you study. Logged time counts toward your streak and weekly goal.</p>
+ <div class="cols2"><div class="card"><h3>Study timer</h3><div class="timer" id="tmr">${tmrText()}</div>${S.timer ? `<button class="btn" data-act="tmrStop">Stop and save</button>` : `<button class="btn" data-act="tmrStart">Start session</button>`}</div>
+ <form class="card" data-act="addLog"><h3>Add a session manually</h3><div class="pform"><label class="fl">Date<input type="date" name="date" value="${todayStr()}" required></label><label class="fl">Minutes<input type="number" name="min" min="1" max="600" value="60" required></label></div><label class="fl">What did you study?<input type="text" name="note" maxlength="120" placeholder="Closures, practice problems..."></label><button class="btn" type="submit">Save session</button></form></div>
+ <div class="card"><h3>Last 14 days</h3><div class="daybars">${days.map((x) => `<div class="db" title="${fmtDate(x.d)}: ${fmtMin(x.m)}"><i style="height:${Math.max(2, (x.m / mx) * 100)}%"></i><span>${parseD(x.d).getDate()}</span></div>`).join("")}</div></div>
+ <div class="card"><h3>Sessions</h3>${logs.length ? `<ul class="loglist">${logs.map((l) => `<li><span class="ld">${fmtDate(l.date)}</span><span class="lm">${fmtMin(l.min)}</span><span class="ln">${esc(l.note || "Study session")}</span><button class="x" data-act="delLog" data-i="${l.i}" aria-label="Delete session">Delete</button></li>`).join("")}</ul>` : '<p class="empty">No sessions yet. Start the timer or add one above.</p>'}</div>`;
+      }
+
+      function vSettings() {
+        const o = overall();
+        return `<h1>Settings</h1>
+ <div class="card"><h3>Your plan</h3><div class="pform"><label class="fl grow">Your name<input type="text" data-act="name" value="${esc(S.name)}" placeholder="Used in greetings"></label><label class="fl">Start date<input type="date" data-act="start" value="${S.start}"></label><label class="fl">Weekly study goal (hours)<input type="number" min="1" max="60" data-act="goal" value="${S.goal}"></label></div><p class="sub">Changing the start date moves every week and day on the schedule.</p></div>
+ <div class="card"><h3>Appearance</h3><label class="fl">Theme<select data-act="theme"><option value="auto" ${S.theme === "auto" ? "selected" : ""}>Match my device</option><option value="light" ${S.theme === "light" ? "selected" : ""}>Light</option><option value="dark" ${S.theme === "dark" ? "selected" : ""}>Dark</option></select></label></div>
+ <div class="card"><h3>Backup and restore</h3><p class="sub">Your progress is saved in this browser only. Copy the text below to back it up, or paste a backup and restore it on another device.</p><textarea id="bk" rows="5" aria-label="Backup data">${esc(JSON.stringify(S))}</textarea><div class="btnrow"><button class="btn" data-act="copyBk">Copy backup</button><button class="btn ghost" data-act="restoreBk">Restore from pasted text</button></div></div>
+ ${o.pct === 100 ? `<div class="card cert"><h3>Certificate of completion</h3><p><b>${esc(S.name || "Learner")}</b> completed the 14-week Intermediate JavaScript track on ${fmtDate(todayStr(), { day: "numeric", month: "long", year: "numeric" })}.</p></div>` : ""}
+ <div class="card danger"><h3>Reset progress</h3><p class="sub">Erase all progress, notes and study log from this browser. This cannot be undone.</p><button class="btn bad" data-act="reset">Reset everything</button></div>`;
+      }
+
+      /* ---------- render ---------- */
+      function sideHTML() {
+        const o = overall(),
+          p = position();
+        return `<div class="brand"><span class="logo">JS</span><div><b>JS Ascent</b><span>Intermediate track</span></div></div>
+ <nav aria-label="Main">${NAV.map(([k, l]) => {
+   const on = route.name === k;
+   const href = k === "week" ? `#/week/${p.before ? 1 : p.week}` : `#/${k}`;
+   return `<a href="${href}" class="${on ? "on" : ""}" ${on ? 'aria-current="page"' : ""}>${l}</a>`;
+ }).join("")}</nav>
+ <div class="sideprog"><div class="rowb"><span>Overall</span><b>${o.pct}%</b></div>${bar(o.pct)}<span class="sub">Streak: ${streak()} days</span></div>`;
+      }
+      function render() {
+        const views = {
+          dash: vDash,
+          roadmap: vRoadmap,
+          week: vWeek,
+          projects: vProjects,
+          quiz: vQuiz,
+          resources: vResources,
+          journal: vJournal,
+          settings: vSettings,
+        };
+        if (!views[route.name]) route = { name: "dash", arg: null };
+        document.documentElement.dataset.theme =
+          S.theme === "auto" ? "" : S.theme;
+        $("#side").innerHTML = sideHTML();
+        $("#main").innerHTML = views[route.name](route.arg);
+      }
+      function applyTheme() {
+        if (S.theme === "auto") delete document.documentElement.dataset.theme;
+        else document.documentElement.dataset.theme = S.theme;
+      }
+
+      /* ---------- events ---------- */
+      document.addEventListener("click", (e) => {
+        const t = e.target.closest("[data-act]");
+        if (!t) return;
+        const a = t.dataset.act;
+        if (a === "startToday") {
+          S.start = todayStr();
+          save();
+          render();
+        } else if (a === "rcat") {
+          resCat = t.dataset.c;
+          render();
+        } else if (a === "retake") {
+          retake[t.dataset.n] = true;
+          render();
+          window.scrollTo(0, 0);
+        } else if (a === "submitQuiz") {
+          const n = Number(t.dataset.n),
+            w = WEEKS[n - 1];
+          const ans = w.quiz.map((q, i) => {
+            const c = document.querySelector(`input[name=q${i}]:checked`);
+            return c ? Number(c.value) : -1;
+          });
+          if (ans.includes(-1)) {
+            toast("Answer every question before submitting");
+            return;
+          }
+          const score = ans.filter((x, i) => x === w.quiz[i].a).length;
+          const first = !S.quiz[n];
+          S.quiz[n] = {
+            score,
+            total: ans.length,
+            answers: ans,
+            date: todayStr(),
+          };
+          delete retake[n];
+          if (first) bump(null, 1);
+          save();
+          render();
+          window.scrollTo(0, 0);
+          checkBadges();
+        } else if (a === "tmrStart") {
+          S.timer = Date.now();
+          save();
+          render();
+        } else if (a === "tmrStop") {
+          const m = Math.max(1, Math.round((Date.now() - S.timer) / 60000));
+          S.log.push({ date: todayStr(), min: m, note: "Timed study session" });
+          bump(null, 1);
+          S.timer = null;
+          save();
+          render();
+          toast("Saved " + fmtMin(m));
+          checkBadges();
+        } else if (a === "delLog") {
+          S.log.splice(Number(t.dataset.i), 1);
+          save();
+          render();
+        } else if (a === "copyBk") {
+          const ta = $("#bk");
+          ta.select();
+          let ok = false;
+          try {
+            ok = document.execCommand("copy");
+          } catch (x) {}
+          if (!ok && navigator.clipboard) {
+            navigator.clipboard
+              .writeText(ta.value)
+              .then(() => toast("Backup copied"))
+              .catch(() => toast("Select the text and copy it manually"));
+            return;
+          }
+          toast(ok ? "Backup copied" : "Select the text and copy it manually");
+        } else if (a === "restoreBk") {
+          try {
+            const d = JSON.parse($("#bk").value);
+            if (!d || typeof d !== "object" || !d.done) throw 0;
+            S = Object.assign(defState(), d);
+            save();
+            render();
+            toast("Progress restored");
+          } catch (x) {
+            toast("That text is not a valid backup");
+          }
+        } else if (a === "reset") {
+          if (
+            confirm(
+              "Erase all progress, notes and study log? This cannot be undone.",
+            )
+          ) {
+            S = defState();
+            save();
+            location.hash = "#/dash";
+            render();
+            toast("Progress reset");
+          }
+        }
+      });
+      document.addEventListener("change", (e) => {
+        const t = e.target.closest("[data-act]");
+        if (!t) return;
+        const a = t.dataset.act,
+          n = t.dataset.n;
+        if (a === "toggle") {
+          const k = t.dataset.k;
+          if (t.checked) {
+            S.done[k] = true;
+            bump(null, 1);
+          } else {
+            delete S.done[k];
+            bump(null, -1);
+          }
+          save();
+          render();
+          if (t.checked) checkBadges();
+        } else if (a === "weekSel") go("week", t.value);
+        else if (a === "pstatus") {
+          S.proj[n] = Object.assign({ status: "todo", link: "" }, S.proj[n], {
+            status: t.value,
+          });
+          if (t.value === "done") bump(null, 1);
+          save();
+          render();
+          checkBadges();
+        } else if (a === "plink") {
+          S.proj[n] = Object.assign({ status: "todo", link: "" }, S.proj[n], {
+            link: t.value.trim(),
+          });
+          save();
+        } else if (a === "name") {
+          S.name = t.value.trim().slice(0, 40);
+          save();
+          render();
+        } else if (a === "start") {
+          if (t.value) {
+            S.start = t.value;
+            save();
+            render();
+          }
+        } else if (a === "goal") {
+          S.goal = clamp(Number(t.value) || 10, 1, 60);
+          save();
+          render();
+        } else if (a === "theme") {
+          S.theme = t.value;
+          save();
+          render();
+        }
+      });
+      document.addEventListener("input", (e) => {
+        const t = e.target.closest("[data-act]");
+        if (!t) return;
+        const a = t.dataset.act;
+        if (a === "note") {
+          S.notes[t.dataset.n] = t.value;
+          save();
+        } else if (a === "reflect") {
+          S.reflect[t.dataset.n] = t.value;
+          save();
+        } else if (a === "rsearch") {
+          resQ = t.value;
+          $("#reslist").innerHTML = resList();
+        }
+      });
+      document.addEventListener("submit", (e) => {
+        const f = e.target.closest('form[data-act="addLog"]');
+        if (!f) return;
+        e.preventDefault();
+        const d = new FormData(f);
+        const min = clamp(Math.round(Number(d.get("min")) || 0), 1, 600);
+        const date = d.get("date") || todayStr();
+        S.log.push({
+          date,
+          min,
+          note: String(d.get("note") || "")
+            .trim()
+            .slice(0, 120),
+        });
+        bump(date, 1);
+        save();
+        render();
+        toast("Saved " + fmtMin(min));
+        checkBadges();
+      });
+      document.addEventListener(
+        "toggle",
+        (e) => {
+          const t = e.target;
+          if (t.matches && t.matches("details[data-proj]")) {
+            const n = Number(t.dataset.proj);
+            t.open ? openProj.add(n) : openProj.delete(n);
+          }
+        },
+        true,
+      );
+      window.addEventListener("hashchange", () => {
+        parseRoute();
+        render();
+        window.scrollTo(0, 0);
+      });
+      setInterval(() => {
+        const el = $("#tmr");
+        if (el && S.timer) el.textContent = tmrText();
+      }, 1000);
+
+      /* ---------- boot ---------- */
+      load();
+      parseRoute();
+      render();
+    </script>
+  </body>
+</html>
